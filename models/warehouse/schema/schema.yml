@@ -1,0 +1,5592 @@
+version: 2
+models:
+
+    - name: wh_ad_campaign_performance_fact
+      meta:
+        label: "Ad Campaign Performance"
+      columns:
+        - name: ad_campaign_performance_pk
+          meta:
+            dimension:
+              label: "Ad Campaign Performance Key"
+              type: string
+              hidden: no
+        - name: ad_campaign_pk
+          meta:
+            dimension:
+              label: "Ad Campaign Key"
+              type: string
+              hidden: no
+        - name: campaign_date
+          meta:
+            dimension:
+              label: "Campaign Date"
+              type: timestamp
+              time_intervals: default
+        - name: total_clicks
+          meta:
+            dimension:
+              label: "Total Clicks"
+              type: number
+              hidden: no
+        - name: total_reported_clicks
+          meta:
+            dimension:
+              label: "Total Reported Clicks"
+              type: number
+              hidden: no
+        - name: total_reported_impressions
+          meta:
+            dimension:
+              label: "Total Reported Impressions"
+              type: number
+              hidden: no
+        - name: actual_vs_reported_clicks_pct
+          meta:
+            dimension:
+              label: "Actual Vs Reported Clicks Pct"
+              type: number
+              hidden: yes
+            metrics:
+              total_actual_vs_reported_clicks_pct:
+                type: sum
+                label: "Total Actual Vs Reported Clicks Pct"
+              avg_actual_vs_reported_clicks_pct:
+                type: average
+                label: "Average Actual Vs Reported Clicks Pct"
+        - name: total_reported_cost
+          meta:
+            dimension:
+              label: "Total Reported Cost"
+              type: number
+              hidden: yes
+            metrics:
+              total_total_reported_cost:
+                type: sum
+                label: "Total Total Reported Cost"
+              avg_total_reported_cost:
+                type: average
+                label: "Average Total Reported Cost"
+        - name: reported_cpc
+          meta:
+            dimension:
+              label: "Reported Cpc"
+              type: number
+              hidden: yes
+            metrics:
+              total_reported_cpc:
+                type: sum
+                label: "Total Reported Cpc"
+              avg_reported_cpc:
+                type: average
+                label: "Average Reported Cpc"
+        - name: reported_ctr
+          meta:
+            dimension:
+              label: "Reported Ctr"
+              type: number
+              hidden: yes
+            metrics:
+              total_reported_ctr:
+                type: sum
+                label: "Total Reported Ctr"
+              avg_reported_ctr:
+                type: average
+                label: "Average Reported Ctr"
+        - name: actual_ctr
+          meta:
+            dimension:
+              label: "Actual Ctr"
+              type: number
+              hidden: yes
+            metrics:
+              total_actual_ctr:
+                type: sum
+                label: "Total Actual Ctr"
+              avg_actual_ctr:
+                type: average
+                label: "Average Actual Ctr"
+        - name: reported_cpm
+          meta:
+            dimension:
+              label: "Reported Cpm"
+              type: number
+              hidden: yes
+            metrics:
+              total_reported_cpm:
+                type: sum
+                label: "Total Reported Cpm"
+              avg_reported_cpm:
+                type: average
+                label: "Average Reported Cpm"
+
+    - name: wh_ad_campaigns_dim
+      meta:
+        label: "4. Marketing"
+        joins:
+          - join: wh_ad_campaign_performance_fact
+            sql_on: ${wh_ad_campaigns_dim.ad_campaign_pk} = ${wh_ad_campaign_performance_fact.ad_campaign_pk}
+          - join: wh_web_sessions_fact
+            sql_on: ${wh_ad_campaigns_dim.ad_campaign_pk} = ${wh_web_sessions_fact.ad_campaign_pk} and ${wh_ad_campaign_performance_fact.campaign_date} = date(${wh_web_sessions_fact.session_start_ts})
+          - join: wh_web_events_fact
+            sql_on: ${wh_web_sessions_fact.web_sessions_pk} = ${wh_web_events_fact.web_sessions_pk}
+      columns:
+        - name: ad_campaign_pk
+          meta:
+            dimension:
+              label: "Ad Campaign Key"
+              type: string
+              hidden: no
+        - name: source
+          meta:
+            dimension:
+              label: "Source"
+              type: string
+              hidden: no
+        - name: ad_campaign_id
+          meta:
+            dimension:
+              label: "Ad Campaign Id"
+              type: string
+              hidden: no
+        - name: ad_campaign_name
+          meta:
+            dimension:
+              label: "Ad Campaign Name"
+              type: string
+              hidden: no
+        - name: ad_campaign_status
+          meta:
+            dimension:
+              label: "Ad Campaign Status"
+              type: string
+              hidden: no
+        - name: campaign_buying_type
+          meta:
+            dimension:
+              label: "Campaign Buying Type"
+              type: string
+              hidden: no
+        - name: ad_network
+          meta:
+            dimension:
+              label: "Ad Network"
+              type: string
+              hidden: no
+        - name: utm_source
+          meta:
+            dimension:
+              label: "Utm Source"
+              type: string
+              hidden: no
+        - name: utm_medium
+          meta:
+            dimension:
+              label: "Utm Medium"
+              type: string
+              hidden: no
+        - name: utm_campaign
+          meta:
+            dimension:
+              label: "Utm Campaign"
+              type: string
+              hidden: no
+        - name: ad_campaign_start_date
+          meta:
+            dimension:
+              label: "Ad Campaign Start Date"
+              type: timestamp
+              time_intervals: default
+        - name: ad_campaign_end_date
+          meta:
+            dimension:
+              label: "Ad Campaign End Date"
+              type: timestamp
+              time_intervals: default
+
+    - name: wh_bank_transactions_fact
+      meta:
+        label: "Bank Transactions"
+      columns:
+        - name: bank_transaction_pk
+          meta:
+            dimension:
+              label: "Bank Transaction Key"
+              type: string
+              hidden: no
+        - name: source
+          meta:
+            dimension:
+              label: "Source"
+              type: string
+              hidden: no
+        - name: bank_transaction_id
+          meta:
+            dimension:
+              label: "Bank Transaction Id"
+              type: string
+              hidden: no
+        - name: bank_account_id
+          meta:
+            dimension:
+              label: "Bank Account Id"
+              type: string
+              hidden: no
+        - name: contact_id
+          meta:
+            dimension:
+              label: "Contact Id"
+              type: string
+              hidden: no
+        - name: currency_code
+          meta:
+            dimension:
+              label: "Currency Code"
+              type: string
+              hidden: no
+        - name: account_id
+          meta:
+            dimension:
+              label: "Account Id"
+              type: string
+              hidden: no
+        - name: line_amount_types
+          meta:
+            dimension:
+              label: "Line Amount Types"
+              type: string
+              hidden: no
+        - name: reference
+          meta:
+            dimension:
+              label: "Reference"
+              type: string
+              hidden: no
+        - name: status
+          meta:
+            dimension:
+              label: "Status"
+              type: string
+              hidden: no
+        - name: line_item_id
+          meta:
+            dimension:
+              label: "Line Item Id"
+              type: string
+              hidden: no
+        - name: account_code
+          meta:
+            dimension:
+              label: "Account Code"
+              type: string
+              hidden: no
+        - name: description
+          meta:
+            dimension:
+              label: "Description"
+              type: string
+              hidden: no
+        - name: item_code
+          meta:
+            dimension:
+              label: "Item Code"
+              type: string
+              hidden: no
+        - name: tax_type
+          meta:
+            dimension:
+              label: "Tax Type"
+              type: string
+              hidden: no
+        - name: type
+          meta:
+            dimension:
+              label: "Type"
+              type: string
+              hidden: no
+        - name: transaction_ts
+          meta:
+            dimension:
+              label: "Transaction"
+              type: timestamp
+              time_intervals: default
+        - name: updated_date_utc
+          meta:
+            dimension:
+              label: "Updated Date Utc"
+              type: timestamp
+              time_intervals: default
+        - name: is_reconciled
+          meta:
+            dimension:
+              label: "Is Reconciled"
+              type: boolean
+              hidden: no
+        - name: currency_rate
+          meta:
+            dimension:
+              label: "Currency Rate"
+              type: number
+              hidden: yes
+            metrics:
+              total_currency_rate:
+                type: sum
+                label: "Total Currency Rate"
+              avg_currency_rate:
+                type: average
+                label: "Average Currency Rate"
+        - name: sub_total
+          meta:
+            dimension:
+              label: "Sub Total"
+              type: number
+              hidden: yes
+            metrics:
+              total_sub_total:
+                type: sum
+                label: "Total Sub Total"
+              avg_sub_total:
+                type: average
+                label: "Average Sub Total"
+        - name: total
+          meta:
+            dimension:
+              label: "Total"
+              type: number
+              hidden: yes
+            metrics:
+              total_total:
+                type: sum
+                label: "Total Total"
+              avg_total:
+                type: average
+                label: "Average Total"
+        - name: total_tax
+          meta:
+            dimension:
+              label: "Total Tax"
+              type: number
+              hidden: yes
+            metrics:
+              total_total_tax:
+                type: sum
+                label: "Total Total Tax"
+              avg_total_tax:
+                type: average
+                label: "Average Total Tax"
+        - name: line_amount
+          meta:
+            dimension:
+              label: "Line Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_line_amount:
+                type: sum
+                label: "Total Line Amount"
+              avg_line_amount:
+                type: average
+                label: "Average Line Amount"
+        - name: quantity
+          meta:
+            dimension:
+              label: "Quantity"
+              type: number
+              hidden: yes
+            metrics:
+              total_quantity:
+                type: sum
+                label: "Total Quantity"
+              avg_quantity:
+                type: average
+                label: "Average Quantity"
+        - name: tax_amount
+          meta:
+            dimension:
+              label: "Tax Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_tax_amount:
+                type: sum
+                label: "Total Tax Amount"
+              avg_tax_amount:
+                type: average
+                label: "Average Tax Amount"
+        - name: unit_amount
+          meta:
+            dimension:
+              label: "Unit Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_unit_amount:
+                type: sum
+                label: "Total Unit Amount"
+              avg_unit_amount:
+                type: average
+                label: "Average Unit Amount"
+
+
+    - name: wh_chart_of_accounts_dim
+      meta:
+        label: "2. Finance"
+        joins:
+          - join: wh_general_ledger_fact
+            sql_on: ${wh_chart_of_accounts_dim.account_id} = ${wh_general_ledger_fact.account_id}
+          - join: wh_profit_and_loss_report_fact
+            sql_on: ${wh_chart_of_accounts_dim.account_id} = ${wh_profit_and_loss_report_fact.account_id} ;;
+      columns:
+        - name: account_pk
+          meta:
+            dimension:
+              label: "Account Key"
+              type: string
+              hidden: no
+        - name: source
+          meta:
+            dimension:
+              label: "Source"
+              type: string
+              hidden: no
+        - name: account_id
+          meta:
+            dimension:
+              label: "Account Id"
+              type: string
+              hidden: no
+        - name: account_name
+          meta:
+            dimension:
+              label: "Account Name"
+              type: string
+              hidden: no
+        - name: account_code
+          meta:
+            dimension:
+              label: "Account Code"
+              type: string
+              hidden: no
+        - name: account_type
+          meta:
+            dimension:
+              label: "Account Type"
+              type: string
+              hidden: no
+        - name: account_class
+          meta:
+            dimension:
+              label: "Account Class"
+              type: string
+              hidden: no
+        - name: account_status
+          meta:
+            dimension:
+              label: "Account Status"
+              type: string
+              hidden: no
+        - name: account_description
+          meta:
+            dimension:
+              label: "Account Description"
+              type: string
+              hidden: no
+        - name: account_reporting_code
+          meta:
+            dimension:
+              label: "Account Reporting Code"
+              type: string
+              hidden: no
+        - name: account_reporting_code_name
+          meta:
+            dimension:
+              label: "Account Reporting Code Name"
+              type: string
+              hidden: no
+        - name: account_currency_code
+          meta:
+            dimension:
+              label: "Account Currency Code"
+              type: string
+              hidden: no
+        - name: account_bank_account_type
+          meta:
+            dimension:
+              label: "Account Bank Account Type"
+              type: string
+              hidden: no
+        - name: account_bank_account_number
+          meta:
+            dimension:
+              label: "Account Bank Account Number"
+              type: string
+              hidden: no
+        - name: account_is_system_account
+          meta:
+            dimension:
+              label: "Account Is System Account"
+              type: string
+              hidden: no
+        - name: account_tax_type
+          meta:
+            dimension:
+              label: "Account Tax Type"
+              type: string
+              hidden: no
+        - name: account_report_category
+          meta:
+            dimension:
+              label: "Account Report Category"
+              type: string
+              hidden: no
+        - name: account_report_sub_category
+          meta:
+            dimension:
+              label: "Account Report Sub Category"
+              type: string
+              hidden: no
+        - name: account_report_group
+          meta:
+            dimension:
+              label: "Account Report Group"
+              type: string
+              hidden: no
+        - name: account_show_in_expense_claims
+          meta:
+            dimension:
+              label: "Account Show In Expense Claims"
+              type: boolean
+              hidden: no
+        - name: account_enable_payments_to_account
+          meta:
+            dimension:
+              label: "Account Enable Payments To Account"
+              type: boolean
+              hidden: no
+        - name: account_report_order
+          meta:
+            dimension:
+              label: "Account Report Order"
+              type: number
+              hidden: no
+        - name: account_report_category_order
+          meta:
+            dimension:
+              label: "Account Report Category Order"
+              type: number
+              hidden: no
+        - name: account_report_sub_category_order
+          meta:
+            dimension:
+              label: "Account Report Sub Category Order"
+              type: number
+              hidden: no
+
+    - name: wh_companies_dim
+      meta:
+        label: "1. Business Operations"
+        joins:
+          - join: wh_deals_fact
+            sql_on: ${wh_companies_dim.company_pk} = ${wh_deals_fact.company_pk}
+          - join: wh_sales_funnel_xa
+            sql_on: ${wh_companies_dim.company_pk} = ${wh_sales_funnel_xa.company_pk}
+          - join: wh_delivery_projects_dim
+            sql_on: ${wh_companies_dim.company_pk} = ${wh_delivery_projects_dim.company_pk}
+          - join: wh_timesheet_projects_dim
+            sql_on: ${wh_companies_dim.company_pk} = ${wh_timesheet_projects_dim.company_pk}
+          - join: wh_invoices_fact
+            sql_on: ${wh_companies_dim.company_pk} = ${wh_invoices_fact.company_pk}
+          - join: wh_payments_fact
+            sql_on: ${wh_invoices_fact.invoice_pk} = ${wh_payments_fact.payment_invoice_fk}
+          - join: wh_contact_companies_fact
+            sql_on: ${wh_companies_dim.company_pk} = ${wh_contact_companies_fact.company_pk}
+          - join: wh_contacts_dim
+            sql_on: ${wh_contact_companies_fact.contact_pk} = ${wh_contacts_dim.contact_pk}
+          - join: wh_contacts_web_interests_xa
+            sql_on: ${wh_contacts_dim.contact_pk} = ${wh_contacts_web_interests_xa.contact_pk}
+      columns:
+        - name: company_pk
+          meta:
+            dimension:
+              label: "Company Key"
+              type: string
+              hidden: no
+        - name: company_name
+          meta:
+            dimension:
+              label: "Company Name"
+              type: string
+              hidden: no
+        - name: company_phone
+          meta:
+            dimension:
+              label: "Company Phone"
+              type: string
+              hidden: no
+        - name: company_website
+          meta:
+            dimension:
+              label: "Company Website"
+              type: string
+              hidden: no
+        - name: company_industry
+          meta:
+            dimension:
+              label: "Company Industry"
+              type: string
+              hidden: no
+        - name: company_linkedin_company_page
+          meta:
+            dimension:
+              label: "Company Linkedin Company Page"
+              type: string
+              hidden: no
+        - name: company_linkedin_bio
+          meta:
+            dimension:
+              label: "Company Linkedin Bio"
+              type: string
+              hidden: no
+        - name: company_twitterhandle
+          meta:
+            dimension:
+              label: "Company Twitterhandle"
+              type: string
+              hidden: no
+        - name: company_description
+          meta:
+            dimension:
+              label: "Company Description"
+              type: string
+              hidden: no
+        - name: company_finance_status
+          meta:
+            dimension:
+              label: "Company Finance Status"
+              type: string
+              hidden: no
+        - name: company_currency_code
+          meta:
+            dimension:
+              label: "Company Currency Code"
+              type: string
+              hidden: no
+        - name: Segment
+          meta:
+            dimension:
+              label: "Segment"
+              type: string
+              hidden: no
+        - name: RA_Lead
+          meta:
+            dimension:
+              label: "Ra Lead"
+              type: string
+              hidden: no
+        - name: Market
+          meta:
+            dimension:
+              label: "Market"
+              type: string
+              hidden: no
+        - name: Department
+          meta:
+            dimension:
+              label: "Department"
+              type: string
+              hidden: no
+        - name: Appeal_of_RA_to_Sponsor
+          meta:
+            dimension:
+              label: "Appeal Of Ra To Sponsor"
+              type: string
+              hidden: no
+        - name: Expectations_Alignment
+          meta:
+            dimension:
+              label: "Expectations Alignment"
+              type: string
+              hidden: no
+        - name: Lead_Technology
+          meta:
+            dimension:
+              label: "Lead Technology"
+              type: string
+              hidden: no
+        - name: Service
+          meta:
+            dimension:
+              label: "Service"
+              type: string
+              hidden: no
+        - name: Marketing_Channel
+          meta:
+            dimension:
+              label: "Marketing Channel"
+              type: string
+              hidden: no
+        - name: Size
+          meta:
+            dimension:
+              label: "Size"
+              type: string
+              hidden: no
+        - name: Status
+          meta:
+            dimension:
+              label: "Status"
+              type: string
+              hidden: no
+        - name: Verticals
+          meta:
+            dimension:
+              label: "Verticals"
+              type: string
+              hidden: no
+        - name: Client_Maturity
+          meta:
+            dimension:
+              label: "Client Maturity"
+              type: string
+              hidden: no
+        - name: Data_Analyst_on_staff
+          meta:
+            dimension:
+              label: "Data Analyst On Staff"
+              type: string
+              hidden: no
+        - name: Plan_to_Hand_over
+          meta:
+            dimension:
+              label: "Plan To Hand Over"
+              type: string
+              hidden: no
+        - name: company_created_date
+          meta:
+            dimension:
+              label: "Company Created Date"
+              type: timestamp
+              time_intervals: default
+        - name: company_last_modified_date
+          meta:
+            dimension:
+              label: "Company Last Modified Date"
+              type: timestamp
+              time_intervals: default
+        - name: Rank
+          meta:
+            dimension:
+              label: "Rank"
+              type: number
+              hidden: no
+        - name: Size_of_RA_Team
+          meta:
+            dimension:
+              label: "Size Of Ra Team"
+              type: number
+              hidden: no
+        - name: Customer_Satisfaction
+          meta:
+            dimension:
+              label: "Customer Satisfaction"
+              type: number
+              hidden: no
+        - name: RA_Satisfaction
+          meta:
+            dimension:
+              label: "Ra Satisfaction"
+              type: number
+              hidden: no
+        - name: Profitability
+          meta:
+            dimension:
+              label: "Profitability"
+              type: number
+              hidden: no
+        - name: IP_Reusability
+          meta:
+            dimension:
+              label: "Ip Reusability"
+              type: number
+              hidden: no
+        - name: Growth_Potential
+          meta:
+            dimension:
+              label: "Growth Potential"
+              type: number
+              hidden: no
+        - name: Referenceability
+          meta:
+            dimension:
+              label: "Referenceability"
+              type: number
+              hidden: no
+        - name: Score
+          meta:
+            dimension:
+              label: "Score"
+              type: number
+              hidden: no
+
+    - name: wh_contact_companies_fact
+      meta:
+        label: "Contact Companies"
+      columns:
+        - name: contact_company_pk
+          meta:
+            dimension:
+              label: "Contact Company Key"
+              type: string
+              hidden: no
+        - name: contact_pk
+          meta:
+            dimension:
+              label: "Contact Key"
+              type: string
+              hidden: no
+        - name: company_pk
+          meta:
+            dimension:
+              label: "Company Key"
+              type: string
+              hidden: no
+
+    - name: wh_contact_deals_fact
+      meta:
+        label: "Contact Deals"
+      columns:
+        - name: contact_deal_pk
+          meta:
+            dimension:
+              label: "Contact Deal Key"
+              type: string
+              hidden: no
+        - name: contact_pk
+          meta:
+            dimension:
+              label: "Contact Key"
+              type: string
+              hidden: no
+        - name: deal_pk
+          meta:
+            dimension:
+              label: "Deal Key"
+              type: string
+              hidden: no
+
+    - name: wh_contact_engagements_fact
+      meta:
+        label: "Contact Engagements"
+      columns:
+        - name: engagement_pk
+          meta:
+            dimension:
+              label: "Engagement Key"
+              type: string
+              hidden: no
+        - name: from_contact_pk
+          meta:
+            dimension:
+              label: "From Contact Key"
+              type: string
+              hidden: no
+        - name: to_contact_pk
+          meta:
+            dimension:
+              label: "To Contact Key"
+              type: string
+              hidden: no
+        - name: engagment_type
+          meta:
+            dimension:
+              label: "Engagment Type"
+              type: string
+              hidden: no
+        - name: engagement_title
+          meta:
+            dimension:
+              label: "Engagement Title"
+              type: string
+              hidden: no
+        - name: deal_pk
+          meta:
+            dimension:
+              label: "Deal Key"
+              type: string
+              hidden: no
+        - name: engagement_ts
+          meta:
+            dimension:
+              label: "Engagement"
+              type: timestamp
+              time_intervals: default
+
+    - name: wh_contacts_audiences_xa
+      meta:
+        label: "Contacts Audiences"
+      columns:
+        - name: contact_pk
+          meta:
+            dimension:
+              label: "Contact Key"
+              type: string
+              hidden: no
+        - name: email
+          meta:
+            dimension:
+              label: "Email"
+              type: string
+              hidden: no
+        - name: name
+          meta:
+            dimension:
+              label: "Name"
+              type: string
+              hidden: no
+        - name: last_page_title
+          meta:
+            dimension:
+              label: "Last Page Title"
+              type: string
+              hidden: no
+        - name: influencer_status
+          meta:
+            dimension:
+              label: "Influencer Status"
+              type: string
+              hidden: no
+        - name: last_visit_date
+          meta:
+            dimension:
+              label: "Last Visit"
+              type: date
+              time_intervals: default
+        - name: attribution_interest
+          meta:
+            dimension:
+              label: "Attribution Interest"
+              type: number
+              hidden: no
+        - name: casestudy_views
+          meta:
+            dimension:
+              label: "Casestudy Views"
+              type: number
+              hidden: no
+        - name: customer_journey_interest
+          meta:
+            dimension:
+              label: "Customer Journey Interest"
+              type: number
+              hidden: no
+        - name: data_centralisation_interest
+          meta:
+            dimension:
+              label: "Data Centralisation Interest"
+              type: number
+              hidden: no
+        - name: data_teams_interest
+          meta:
+            dimension:
+              label: "Data Teams Interest"
+              type: number
+              hidden: no
+        - name: dbt_interest
+          meta:
+            dimension:
+              label: "Dbt Interest"
+              type: number
+              hidden: no
+        - name: looker_interest
+          meta:
+            dimension:
+              label: "Looker Interest"
+              type: number
+              hidden: no
+        - name: personas_interest
+          meta:
+            dimension:
+              label: "Personas Interest"
+              type: number
+              hidden: no
+        - name: pricing_views
+          meta:
+            dimension:
+              label: "Pricing Views"
+              type: number
+              hidden: no
+        - name: ra_warehouse_interest
+          meta:
+            dimension:
+              label: "Ra Warehouse Interest"
+              type: number
+              hidden: no
+        - name: segment_interest
+          meta:
+            dimension:
+              label: "Segment Interest"
+              type: number
+              hidden: no
+        - name: visits_l90_days
+          meta:
+            dimension:
+              label: "Visits L90 Days"
+              type: number
+              hidden: no
+
+    - name: wh_contacts_dim
+      meta:
+        label: "3. CRM"
+        joins:
+          - join: wh_contact_web_event_history_xa
+            sql_on: ${wh_contacts_dim.contact_pk} = ${wh_contact_web_event_history_xa.contact_pk}
+        joins:
+          - join: wh_contact_engagements_fact
+            sql_on: ${wh_contacts_dim.contact_pk} = ${wh_contact_engagements_fact.from_contact_pk}
+        joins:
+          - join: wh_contacts_segments_xa
+            sql_on: ${wh_contacts_dim.contact_pk} = ${wh_contacts_segments_xa.contact_pk}
+        joins:
+          - join: wh_contacts_web_interests_xa
+            sql_on: ${wh_contacts_dim.contact_pk} = ${wh_contacts_web_interests_xa.contact_pk}
+      columns:
+        - name: contact_pk
+          meta:
+            dimension:
+              label: "Contact Key"
+              type: string
+              hidden: no
+        - name: contact_name
+          meta:
+            dimension:
+              label: "Contact Name"
+              type: string
+              hidden: no
+        - name: job_title
+          meta:
+            dimension:
+              label: "Job Title"
+              type: string
+              hidden: no
+        - name: contact_phone
+          meta:
+            dimension:
+              label: "Contact Phone"
+              type: string
+              hidden: no
+        - name: contact_created_date
+          meta:
+            dimension:
+              label: "Contact Created Date"
+              type: timestamp
+              time_intervals: default
+        - name: contact_last_modified_date
+          meta:
+            dimension:
+              label: "Contact Last Modified Date"
+              type: timestamp
+              time_intervals: default
+        - name: contact_is_contractor
+          meta:
+            dimension:
+              label: "Contact Is Contractor"
+              type: boolean
+              hidden: no
+        - name: contact_is_staff
+          meta:
+            dimension:
+              label: "Contact Is Staff"
+              type: boolean
+              hidden: no
+        - name: contact_is_active
+          meta:
+            dimension:
+              label: "Contact Is Active"
+              type: boolean
+              hidden: no
+        - name: contact_weekly_capacity
+          meta:
+            dimension:
+              label: "Contact Weekly Capacity"
+              type: number
+              hidden: no
+        - name: contact_default_hourly_rate
+          meta:
+            dimension:
+              label: "Contact Default Hourly Rate"
+              type: number
+              hidden: yes
+            metrics:
+              total_contact_default_hourly_rate:
+                type: sum
+                label: "Total Contact Default Hourly Rate"
+              avg_contact_default_hourly_rate:
+                type: average
+                label: "Average Contact Default Hourly Rate"
+        - name: contact_cost_rate
+          meta:
+            dimension:
+              label: "Contact Cost Rate"
+              type: number
+              hidden: yes
+            metrics:
+              total_contact_cost_rate:
+                type: sum
+                label: "Total Contact Cost Rate"
+              avg_contact_cost_rate:
+                type: average
+                label: "Average Contact Cost Rate"
+
+    - name: wh_contacts_influencer_list_xa
+      meta:
+        label: "Contacts Influencer List"
+      columns:
+        - name: contact_name
+          meta:
+            dimension:
+              label: "Contact Name"
+              type: string
+              hidden: no
+        - name: hubspot_contact_id
+          meta:
+            dimension:
+              label: "Hubspot Contact Id"
+              type: string
+              hidden: no
+        - name: influencer_status
+          meta:
+            dimension:
+              label: "Influencer Status"
+              type: string
+              hidden: no
+        - name: contact_influencer_score
+          meta:
+            dimension:
+              label: "Contact Influencer Score"
+              type: number
+              hidden: no
+
+    - name: wh_contacts_segments_xa
+      meta:
+        label: "Contacts Segments"
+      columns:
+        - name: contact_pk
+          meta:
+            dimension:
+              label: "Contact Key"
+              type: string
+              hidden: no
+        - name: email
+          meta:
+            dimension:
+              label: "Email"
+              type: string
+              hidden: no
+        - name: name
+          meta:
+            dimension:
+              label: "Name"
+              type: string
+              hidden: no
+        - name: engagement_level
+          meta:
+            dimension:
+              label: "Engagement Level"
+              type: string
+              hidden: no
+        - name: buying_stage
+          meta:
+            dimension:
+              label: "Buying Stage"
+              type: string
+              hidden: no
+        - name: contact_segment
+          meta:
+            dimension:
+              label: "Contact Segment"
+              type: string
+              hidden: no
+
+    - name: wh_contacts_web_event_history_xa
+      meta:
+        label: "Contacts Web Event History"
+      columns:
+        - name: contact_pk
+          meta:
+            dimension:
+              label: "Contact Key"
+              type: string
+              hidden: no
+        - name: contact_email
+          meta:
+            dimension:
+              label: "Contact Email"
+              type: string
+              hidden: no
+        - name: web_event_pk
+          meta:
+            dimension:
+              label: "Web Event Key"
+              type: string
+              hidden: no
+        - name: event_type
+          meta:
+            dimension:
+              label: "Event Type"
+              type: string
+              hidden: no
+        - name: event_details
+          meta:
+            dimension:
+              label: "Event Details"
+              type: string
+              hidden: no
+        - name: page_title
+          meta:
+            dimension:
+              label: "Page Title"
+              type: string
+              hidden: no
+        - name: page_url
+          meta:
+            dimension:
+              label: "Page Url"
+              type: string
+              hidden: no
+        - name: ip
+          meta:
+            dimension:
+              label: "Ip"
+              type: string
+              hidden: no
+        - name: event_ts
+          meta:
+            dimension:
+              label: "Event"
+              type: timestamp
+              time_intervals: default
+
+    - name: wh_contacts_web_interests_xa
+      meta:
+        label: "Contacts Web Interests"
+      columns:
+        - name: contact_pk
+          meta:
+            dimension:
+              label: "Contact Key"
+              type: string
+              hidden: no
+        - name: last_page_title
+          meta:
+            dimension:
+              label: "Last Page Title"
+              type: string
+              hidden: no
+        - name: last_visit_ts
+          meta:
+            dimension:
+              label: "Last Visit"
+              type: timestamp
+              time_intervals: default
+        - name: pricing_views
+          meta:
+            dimension:
+              label: "Pricing Views"
+              type: number
+              hidden: no
+        - name: blog_views
+          meta:
+            dimension:
+              label: "Blog Views"
+              type: number
+              hidden: no
+        - name: podcast_views
+          meta:
+            dimension:
+              label: "Podcast Views"
+              type: number
+              hidden: no
+        - name: attribution_interest
+          meta:
+            dimension:
+              label: "Attribution Interest"
+              type: number
+              hidden: no
+        - name: ra_warehouse_interest
+          meta:
+            dimension:
+              label: "Ra Warehouse Interest"
+              type: number
+              hidden: no
+        - name: looker_interest
+          meta:
+            dimension:
+              label: "Looker Interest"
+              type: number
+              hidden: no
+        - name: oawc_interest
+          meta:
+            dimension:
+              label: "Oawc Interest"
+              type: number
+              hidden: no
+        - name: dbt_interest
+          meta:
+            dimension:
+              label: "Dbt Interest"
+              type: number
+              hidden: no
+        - name: customer_journey_interest
+          meta:
+            dimension:
+              label: "Customer Journey Interest"
+              type: number
+              hidden: no
+        - name: data_centralisation_interest
+          meta:
+            dimension:
+              label: "Data Centralisation Interest"
+              type: number
+              hidden: no
+        - name: marketing_analytics_interest
+          meta:
+            dimension:
+              label: "Marketing Analytics Interest"
+              type: number
+              hidden: no
+        - name: segment_interest
+          meta:
+            dimension:
+              label: "Segment Interest"
+              type: number
+              hidden: no
+        - name: modern_data_stack_interest
+          meta:
+            dimension:
+              label: "Modern Data Stack Interest"
+              type: number
+              hidden: no
+        - name: startup_interest
+          meta:
+            dimension:
+              label: "Startup Interest"
+              type: number
+              hidden: no
+        - name: martech_interest
+          meta:
+            dimension:
+              label: "Martech Interest"
+              type: number
+              hidden: no
+        - name: personas_interest
+          meta:
+            dimension:
+              label: "Personas Interest"
+              type: number
+              hidden: no
+        - name: bigquery_interest
+          meta:
+            dimension:
+              label: "Bigquery Interest"
+              type: number
+              hidden: no
+        - name: data_teams_interest
+          meta:
+            dimension:
+              label: "Data Teams Interest"
+              type: number
+              hidden: no
+        - name: casestudy_views
+          meta:
+            dimension:
+              label: "Casestudy Views"
+              type: number
+              hidden: no
+        - name: visits_l90_days
+          meta:
+            dimension:
+              label: "Visits L90 Days"
+              type: number
+              hidden: no
+
+    - name: wh_contracts_fact
+      meta:
+        label: "Contracts"
+      columns:
+        - name: contract_pk
+          meta:
+            dimension:
+              label: "Contract Key"
+              type: string
+              hidden: no
+        - name: source
+          meta:
+            dimension:
+              label: "Source"
+              type: string
+              hidden: no
+        - name: contract_id
+          meta:
+            dimension:
+              label: "Contract Id"
+              type: string
+              hidden: no
+        - name: contract_name
+          meta:
+            dimension:
+              label: "Contract Name"
+              type: string
+              hidden: no
+        - name: sent_ts
+          meta:
+            dimension:
+              label: "Sent Ts"
+              type: string
+              hidden: no
+        - name: contract_status
+          meta:
+            dimension:
+              label: "Contract Status"
+              type: string
+              hidden: no
+        - name: contract_executed_ts
+          meta:
+            dimension:
+              label: "Contract Executed Ts"
+              type: string
+              hidden: no
+        - name: contract_voided_on_ts
+          meta:
+            dimension:
+              label: "Contract Voided On Ts"
+              type: string
+              hidden: no
+        - name: voided_reason
+          meta:
+            dimension:
+              label: "Voided Reason"
+              type: string
+              hidden: no
+        - name: last_modified_date
+          meta:
+            dimension:
+              label: "Last Modified Date"
+              type: string
+              hidden: no
+        - name: authorised_contract_signatory
+          meta:
+            dimension:
+              label: "Authorised Contract Signatory"
+              type: string
+              hidden: no
+        - name: contact_id
+          meta:
+            dimension:
+              label: "Contact Id"
+              type: string
+              hidden: no
+        - name: contact_title
+          meta:
+            dimension:
+              label: "Contact Title"
+              type: string
+              hidden: no
+        - name: contact_name
+          meta:
+            dimension:
+              label: "Contact Name"
+              type: string
+              hidden: no
+        - name: contact_email
+          meta:
+            dimension:
+              label: "Contact Email"
+              type: string
+              hidden: no
+        - name: contact_pk
+          meta:
+            dimension:
+              label: "Contact Key"
+              type: string
+              hidden: no
+        - name: company_pk
+          meta:
+            dimension:
+              label: "Company Key"
+              type: string
+              hidden: no
+        - name: email_domain
+          meta:
+            dimension:
+              label: "Email Domain"
+              type: string
+              hidden: no
+        - name: is_completed
+          meta:
+            dimension:
+              label: "Is Completed"
+              type: boolean
+              hidden: no
+        - name: is_voided
+          meta:
+            dimension:
+              label: "Is Voided"
+              type: boolean
+              hidden: no
+        - name: total_completed_signatures
+          meta:
+            dimension:
+              label: "Total Completed Signatures"
+              type: number
+              hidden: no
+        - name: total_remaining_signatures
+          meta:
+            dimension:
+              label: "Total Remaining Signatures"
+              type: number
+              hidden: no
+
+    - name: wh_conversations_fact
+      meta:
+        label: "Conversations"
+      columns:
+        - name: conversation_pk
+          meta:
+            dimension:
+              label: "Conversation Key"
+              type: string
+              hidden: no
+        - name: contact_pk
+          meta:
+            dimension:
+              label: "Contact Key"
+              type: string
+              hidden: no
+        - name: from_contact_pk
+          meta:
+            dimension:
+              label: "From Contact Key"
+              type: string
+              hidden: no
+        - name: to_contact_pk
+          meta:
+            dimension:
+              label: "To Contact Key"
+              type: string
+              hidden: no
+        - name: conversation_to_contact_name
+          meta:
+            dimension:
+              label: "Conversation To Contact Name"
+              type: string
+              hidden: no
+        - name: source
+          meta:
+            dimension:
+              label: "Source"
+              type: string
+              hidden: no
+        - name: conversation_id
+          meta:
+            dimension:
+              label: "Conversation Id"
+              type: string
+              hidden: no
+        - name: company_id
+          meta:
+            dimension:
+              label: "Company Id"
+              type: string
+              hidden: no
+        - name: conversation_author_type
+          meta:
+            dimension:
+              label: "Conversation Author Type"
+              type: string
+              hidden: no
+        - name: conversation_user_type
+          meta:
+            dimension:
+              label: "Conversation User Type"
+              type: string
+              hidden: no
+        - name: conversation_assignee_state
+          meta:
+            dimension:
+              label: "Conversation Assignee State"
+              type: string
+              hidden: no
+        - name: conversation_message_id
+          meta:
+            dimension:
+              label: "Conversation Message Id"
+              type: string
+              hidden: no
+        - name: conversation_message_type
+          meta:
+            dimension:
+              label: "Conversation Message Type"
+              type: string
+              hidden: no
+        - name: conversation_body
+          meta:
+            dimension:
+              label: "Conversation Body"
+              type: string
+              hidden: no
+        - name: conversation_subject
+          meta:
+            dimension:
+              label: "Conversation Subject"
+              type: string
+              hidden: no
+        - name: conversation_from_email
+          meta:
+            dimension:
+              label: "Conversation From Email"
+              type: string
+              hidden: no
+        - name: conversation_from_contact_name
+          meta:
+            dimension:
+              label: "Conversation From Contact Name"
+              type: string
+              hidden: no
+        - name: conversation_to_email
+          meta:
+            dimension:
+              label: "Conversation To Email"
+              type: string
+              hidden: no
+        - name: conversation_created_date
+          meta:
+            dimension:
+              label: "Conversation Created Date"
+              type: timestamp
+              time_intervals: default
+        - name: contact_last_modified_date
+          meta:
+            dimension:
+              label: "Contact Last Modified Date"
+              type: timestamp
+              time_intervals: default
+        - name: is_conversation_read
+          meta:
+            dimension:
+              label: "Is Conversation Read"
+              type: boolean
+              hidden: no
+        - name: is_conversation_open
+          meta:
+            dimension:
+              label: "Is Conversation Open"
+              type: boolean
+              hidden: no
+        - name: deal_id
+          meta:
+            dimension:
+              label: "Deal Id"
+              type: number
+              hidden: no
+
+
+    - name: wh_currency_dim
+      meta:
+        label: "Currency"
+      columns:
+        - name: currency_pk
+          meta:
+            dimension:
+              label: "Currency Key"
+              type: string
+              hidden: no
+        - name: source
+          meta:
+            dimension:
+              label: "Source"
+              type: string
+              hidden: no
+        - name: currency_code
+          meta:
+            dimension:
+              label: "Currency Code"
+              type: string
+              hidden: no
+        - name: currency_name
+          meta:
+            dimension:
+              label: "Currency Name"
+              type: string
+              hidden: no
+
+    - name: wh_customer_contacts_360_xa
+      meta:
+        label: "Customer Contacts 360"
+      columns:
+        - name: company_pk
+          meta:
+            dimension:
+              label: "Company Key"
+              type: string
+              hidden: no
+        - name: company_name
+          meta:
+            dimension:
+              label: "Company Name"
+              type: string
+              hidden: no
+        - name: company_website
+          meta:
+            dimension:
+              label: "Company Website"
+              type: string
+              hidden: no
+        - name: company_created_date
+          meta:
+            dimension:
+              label: "Company Created Date"
+              type: timestamp
+              time_intervals: default
+
+    - name: wh_customer_event_history_fact
+      meta:
+        label: "Customer Events"
+      columns:
+        - name: company_pk
+          meta:
+            dimension:
+              label: "Company Key"
+              type: string
+              hidden: no
+        - name: company_name
+          meta:
+            dimension:
+              label: "Company Name"
+              type: string
+              hidden: no
+        - name: event_type
+          meta:
+            dimension:
+              label: "Event Type"
+              type: string
+              hidden: no
+        - name: event_details
+          meta:
+            dimension:
+              label: "Event Details"
+              type: string
+              hidden: no
+        - name: event_contact_pk
+          meta:
+            dimension:
+              label: "Event Contact Key"
+              type: string
+              hidden: no
+        - name: event_contact_name
+          meta:
+            dimension:
+              label: "Event Contact Name"
+              type: string
+              hidden: no
+        - name: event_ts
+          meta:
+            dimension:
+              label: "Event"
+              type: timestamp
+              time_intervals: default
+        - name: client_cohort_month
+          meta:
+            dimension:
+              label: "Client Cohort Month"
+              type: date
+              time_intervals: default
+        - name: client_event_seq
+          meta:
+            dimension:
+              label: "Client Event Seq"
+              type: number
+              hidden: no
+        - name: months_since_client_created
+          meta:
+            dimension:
+              label: "Months Since Client Created"
+              type: number
+              hidden: no
+        - name: event_value
+          meta:
+            dimension:
+              label: "Event Value"
+              type: number
+              hidden: yes
+            metrics:
+              total_event_value:
+                type: sum
+                label: "Total Event Value"
+              avg_event_value:
+                type: average
+                label: "Average Event Value"
+        - name: total_ltv
+          meta:
+            dimension:
+              label: "Total Ltv"
+              type: number
+              hidden: yes
+            metrics:
+              total_total_ltv:
+                type: sum
+                label: "Total Total Ltv"
+              avg_total_ltv:
+                type: average
+                label: "Average Total Ltv"
+
+    - name: wh_deals_fact
+      meta:
+        label: "Deals"
+      columns:
+        - name: deal_pk
+          meta:
+            dimension:
+              label: "Deal Key"
+              type: string
+              hidden: no
+        - name: company_pk
+          meta:
+            dimension:
+              label: "Company Key"
+              type: string
+              hidden: no
+        - name: source
+          meta:
+            dimension:
+              label: "Source"
+              type: string
+              hidden: no
+        - name: company_id
+          meta:
+            dimension:
+              label: "Company Id"
+              type: string
+              hidden: no
+        - name: deal_name
+          meta:
+            dimension:
+              label: "Deal Name"
+              type: string
+              hidden: no
+        - name: deal_type
+          meta:
+            dimension:
+              label: "Deal Type"
+              type: string
+              hidden: no
+        - name: deal_description
+          meta:
+            dimension:
+              label: "Deal Description"
+              type: string
+              hidden: no
+        - name: deal_pipeline_stage_id
+          meta:
+            dimension:
+              label: "Deal Pipeline Stage Id"
+              type: string
+              hidden: no
+        - name: deal_pipeline_id
+          meta:
+            dimension:
+              label: "Deal Pipeline Id"
+              type: string
+              hidden: no
+        - name: hubspot_team_id
+          meta:
+            dimension:
+              label: "Hubspot Team Id"
+              type: string
+              hidden: no
+        - name: deal_owner_id
+          meta:
+            dimension:
+              label: "Deal Owner Id"
+              type: string
+              hidden: no
+        - name: deal_currency_code
+          meta:
+            dimension:
+              label: "Deal Currency Code"
+              type: string
+              hidden: no
+        - name: deal_source
+          meta:
+            dimension:
+              label: "Deal Source"
+              type: string
+              hidden: no
+        - name: hs_analytics_source
+          meta:
+            dimension:
+              label: "Hs Analytics Source"
+              type: string
+              hidden: no
+        - name: hs_analytics_source_data_1
+          meta:
+            dimension:
+              label: "Hs Analytics Source Data 1"
+              type: string
+              hidden: no
+        - name: hs_analytics_source_data_2
+          meta:
+            dimension:
+              label: "Hs Analytics Source Data 2"
+              type: string
+              hidden: no
+        - name: deal_closed_lost_reason
+          meta:
+            dimension:
+              label: "Deal Closed Lost Reason"
+              type: string
+              hidden: no
+        - name: deal_harvest_project_id
+          meta:
+            dimension:
+              label: "Deal Harvest Project Id"
+              type: string
+              hidden: no
+        - name: deal_components
+          meta:
+            dimension:
+              label: "Deal Components"
+              type: string
+              hidden: no
+        - name: deal_pricing_model
+          meta:
+            dimension:
+              label: "Deal Pricing Model"
+              type: string
+              hidden: no
+        - name: deal_partner_referral
+          meta:
+            dimension:
+              label: "Deal Partner Referral"
+              type: string
+              hidden: no
+        - name: deal_sprint_type
+          meta:
+            dimension:
+              label: "Deal Sprint Type"
+              type: string
+              hidden: no
+        - name: deal_license_referral_harvest_project_code
+          meta:
+            dimension:
+              label: "Deal License Referral Harvest Project Code"
+              type: string
+              hidden: no
+        - name: deal_jira_project_code
+          meta:
+            dimension:
+              label: "Deal Jira Project Code"
+              type: string
+              hidden: no
+        - name: deal_assigned_consultant
+          meta:
+            dimension:
+              label: "Deal Assigned Consultant"
+              type: string
+              hidden: no
+        - name: deal_products_in_solution
+          meta:
+            dimension:
+              label: "Deal Products In Solution"
+              type: string
+              hidden: no
+        - name: manual_forecast_category
+          meta:
+            dimension:
+              label: "Manual Forecast Category"
+              type: string
+              hidden: no
+        - name: merged_object_ids
+          meta:
+            dimension:
+              label: "Merged Object Ids"
+              type: string
+              hidden: no
+        - name: predicted_amount
+          meta:
+            dimension:
+              label: "Predicted Amount"
+              type: string
+              hidden: no
+        - name: pipeline_label
+          meta:
+            dimension:
+              label: "Pipeline Label"
+              type: string
+              hidden: no
+        - name: pipeline_stage_label
+          meta:
+            dimension:
+              label: "Pipeline Stage Label"
+              type: string
+              hidden: no
+        - name: owner_full_name
+          meta:
+            dimension:
+              label: "Owner Full Name"
+              type: string
+              hidden: no
+        - name: owner_email
+          meta:
+            dimension:
+              label: "Owner Email"
+              type: string
+              hidden: no
+        - name: deal_created_ts
+          meta:
+            dimension:
+              label: "Deal Created"
+              type: timestamp
+              time_intervals: default
+        - name: delivery_schedule_ts
+          meta:
+            dimension:
+              label: "Delivery Schedule"
+              type: timestamp
+              time_intervals: default
+        - name: delivery_start_date_ts
+          meta:
+            dimension:
+              label: "Delivery Start Date"
+              type: timestamp
+              time_intervals: default
+        - name: deal_closed_ts
+          meta:
+            dimension:
+              label: "Deal Closed"
+              type: timestamp
+              time_intervals: default
+        - name: deal_last_modified_ts
+          meta:
+            dimension:
+              label: "Deal Last Modified"
+              type: timestamp
+              time_intervals: default
+        - name: deal_pipeline_stage_ts
+          meta:
+            dimension:
+              label: "Deal Pipeline Stage"
+              type: timestamp
+              time_intervals: default
+        - name: deal_end_ts
+          meta:
+            dimension:
+              label: "Deal End"
+              type: timestamp
+              time_intervals: default
+        - name: deal_sales_email_last_replied
+          meta:
+            dimension:
+              label: "Deal Sales Email Last Replied"
+              type: timestamp
+              time_intervals: default
+        - name: deal_last_meeting_booked_date
+          meta:
+            dimension:
+              label: "Deal Last Meeting Booked Date"
+              type: timestamp
+              time_intervals: default
+        - name: date_entered_deal_stage_0
+          meta:
+            dimension:
+              label: "Date Entered Deal Stage 0"
+              type: timestamp
+              time_intervals: default
+        - name: date_exited_deal_stage_0
+          meta:
+            dimension:
+              label: "Date Exited Deal Stage 0"
+              type: timestamp
+              time_intervals: default
+        - name: date_entered_deal_stage_1
+          meta:
+            dimension:
+              label: "Date Entered Deal Stage 1"
+              type: timestamp
+              time_intervals: default
+        - name: date_exited_deal_stage_1
+          meta:
+            dimension:
+              label: "Date Exited Deal Stage 1"
+              type: timestamp
+              time_intervals: default
+        - name: date_entered_deal_stage_2
+          meta:
+            dimension:
+              label: "Date Entered Deal Stage 2"
+              type: timestamp
+              time_intervals: default
+        - name: date_exited_deal_stage_2
+          meta:
+            dimension:
+              label: "Date Exited Deal Stage 2"
+              type: timestamp
+              time_intervals: default
+        - name: date_entered_deal_stage_3
+          meta:
+            dimension:
+              label: "Date Entered Deal Stage 3"
+              type: timestamp
+              time_intervals: default
+        - name: date_exited_deal_stage_3
+          meta:
+            dimension:
+              label: "Date Exited Deal Stage 3"
+              type: timestamp
+              time_intervals: default
+        - name: date_entered_deal_stage_4
+          meta:
+            dimension:
+              label: "Date Entered Deal Stage 4"
+              type: timestamp
+              time_intervals: default
+        - name: date_exited_deal_stage_4
+          meta:
+            dimension:
+              label: "Date Exited Deal Stage 4"
+              type: timestamp
+              time_intervals: default
+        - name: date_entered_deal_stage_5
+          meta:
+            dimension:
+              label: "Date Entered Deal Stage 5"
+              type: timestamp
+              time_intervals: default
+        - name: date_exited_deal_stage_5
+          meta:
+            dimension:
+              label: "Date Exited Deal Stage 5"
+              type: timestamp
+              time_intervals: default
+        - name: date_entered_deal_stage_6
+          meta:
+            dimension:
+              label: "Date Entered Deal Stage 6"
+              type: timestamp
+              time_intervals: default
+        - name: date_exited_deal_stage_6
+          meta:
+            dimension:
+              label: "Date Exited Deal Stage 6"
+              type: timestamp
+              time_intervals: default
+        - name: date_entered_deal_stage_7
+          meta:
+            dimension:
+              label: "Date Entered Deal Stage 7"
+              type: timestamp
+              time_intervals: default
+        - name: date_exited_deal_stage_7
+          meta:
+            dimension:
+              label: "Date Exited Deal Stage 7"
+              type: timestamp
+              time_intervals: default
+        - name: date_entered_deal_stage_8
+          meta:
+            dimension:
+              label: "Date Entered Deal Stage 8"
+              type: timestamp
+              time_intervals: default
+        - name: date_entered_deal_stage_9
+          meta:
+            dimension:
+              label: "Date Entered Deal Stage 9"
+              type: timestamp
+              time_intervals: default
+        - name: date_entered_deal_stage_10
+          meta:
+            dimension:
+              label: "Date Entered Deal Stage 10"
+              type: timestamp
+              time_intervals: default
+        - name: deal_is_deleted
+          meta:
+            dimension:
+              label: "Deal Is Deleted"
+              type: boolean
+              hidden: no
+        - name: is_services_deal
+          meta:
+            dimension:
+              label: "Is Services Deal"
+              type: boolean
+              hidden: no
+        - name: is_managed_services_deal
+          meta:
+            dimension:
+              label: "Is Managed Services Deal"
+              type: boolean
+              hidden: no
+        - name: is_license_referral_deal
+          meta:
+            dimension:
+              label: "Is License Referral Deal"
+              type: boolean
+              hidden: no
+        - name: is_training_deal
+          meta:
+            dimension:
+              label: "Is Training Deal"
+              type: boolean
+              hidden: no
+        - name: is_looker_skill_requirement
+          meta:
+            dimension:
+              label: "Is Looker Skill Requirement"
+              type: boolean
+              hidden: no
+        - name: is_segment_skill_requirement
+          meta:
+            dimension:
+              label: "Is Segment Skill Requirement"
+              type: boolean
+              hidden: no
+        - name: is_dbt_skill_requirement
+          meta:
+            dimension:
+              label: "Is Dbt Skill Requirement"
+              type: boolean
+              hidden: no
+        - name: is_stitch_skill_requirement
+          meta:
+            dimension:
+              label: "Is Stitch Skill Requirement"
+              type: boolean
+              hidden: no
+        - name: is_gcp_skill_requirement
+          meta:
+            dimension:
+              label: "Is Gcp Skill Requirement"
+              type: boolean
+              hidden: no
+        - name: is_snowflake_skill_requirement
+          meta:
+            dimension:
+              label: "Is Snowflake Skill Requirement"
+              type: boolean
+              hidden: no
+        - name: is_qubit_skill_requirement
+          meta:
+            dimension:
+              label: "Is Qubit Skill Requirement"
+              type: boolean
+              hidden: no
+        - name: is_fivetran_skill_requirement
+          meta:
+            dimension:
+              label: "Is Fivetran Skill Requirement"
+              type: boolean
+              hidden: no
+        - name: pipeline_stage_closed_won
+          meta:
+            dimension:
+              label: "Pipeline Stage Closed Won"
+              type: boolean
+              hidden: no
+        - name: deal_id
+          meta:
+            dimension:
+              label: "Deal Id"
+              type: number
+              hidden: no
+        - name: pipeline_display_order
+          meta:
+            dimension:
+              label: "Pipeline Display Order"
+              type: number
+              hidden: no
+        - name: pipeline_stage_display_order
+          meta:
+            dimension:
+              label: "Pipeline Stage Display Order"
+              type: number
+              hidden: no
+        - name: deal_stage_probability_pct
+          meta:
+            dimension:
+              label: "Deal Stage Probability Pct"
+              type: number
+              hidden: yes
+            metrics:
+              total_deal_stage_probability_pct:
+                type: sum
+                label: "Total Deal Stage Probability Pct"
+              avg_deal_stage_probability_pct:
+                type: average
+                label: "Average Deal Stage Probability Pct"
+        - name: created_by_user_id
+          meta:
+            dimension:
+              label: "Created By User Id"
+              type: number
+              hidden: yes
+            metrics:
+              total_created_by_user_id:
+                type: sum
+                label: "Total Created By User Id"
+              avg_created_by_user_id:
+                type: average
+                label: "Average Created By User Id"
+        - name: deal_amount
+          meta:
+            dimension:
+              label: "Deal Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_deal_amount:
+                type: sum
+                label: "Total Deal Amount"
+              avg_deal_amount:
+                type: average
+                label: "Average Deal Amount"
+        - name: projected_home_currency_amount
+          meta:
+            dimension:
+              label: "Projected Home Currency Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_projected_home_currency_amount:
+                type: sum
+                label: "Total Projected Home Currency Amount"
+              avg_projected_home_currency_amount:
+                type: average
+                label: "Average Projected Home Currency Amount"
+        - name: projected_local_currency_amount
+          meta:
+            dimension:
+              label: "Projected Local Currency Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_projected_local_currency_amount:
+                type: sum
+                label: "Total Projected Local Currency Amount"
+              avg_projected_local_currency_amount:
+                type: average
+                label: "Average Projected Local Currency Amount"
+        - name: deal_total_contract_amount
+          meta:
+            dimension:
+              label: "Deal Total Contract Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_deal_total_contract_amount:
+                type: sum
+                label: "Total Deal Total Contract Amount"
+              avg_deal_total_contract_amount:
+                type: average
+                label: "Average Deal Total Contract Amount"
+        - name: deal_annual_contract_amount
+          meta:
+            dimension:
+              label: "Deal Annual Contract Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_deal_annual_contract_amount:
+                type: sum
+                label: "Total Deal Annual Contract Amount"
+              avg_deal_annual_contract_amount:
+                type: average
+                label: "Average Deal Annual Contract Amount"
+        - name: deal_annual_recurring_revenue_amount
+          meta:
+            dimension:
+              label: "Deal Annual Recurring Revenue Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_deal_annual_recurring_revenue_amount:
+                type: sum
+                label: "Total Deal Annual Recurring Revenue Amount"
+              avg_deal_annual_recurring_revenue_amount:
+                type: average
+                label: "Average Deal Annual Recurring Revenue Amount"
+        - name: deal_closed_amount_value
+          meta:
+            dimension:
+              label: "Deal Closed Amount Value"
+              type: number
+              hidden: yes
+            metrics:
+              total_deal_closed_amount_value:
+                type: sum
+                label: "Total Deal Closed Amount Value"
+              avg_deal_closed_amount_value:
+                type: average
+                label: "Average Deal Closed Amount Value"
+        - name: hs_closed_amount_in_home_currency
+          meta:
+            dimension:
+              label: "Hs Closed Amount In Home Currency"
+              type: number
+              hidden: yes
+            metrics:
+              total_hs_closed_amount_in_home_currency:
+                type: sum
+                label: "Total Hs Closed Amount In Home Currency"
+              avg_hs_closed_amount_in_home_currency:
+                type: average
+                label: "Average Hs Closed Amount In Home Currency"
+        - name: deal_days_to_close
+          meta:
+            dimension:
+              label: "Deal Days To Close"
+              type: number
+              hidden: yes
+            metrics:
+              total_deal_days_to_close:
+                type: sum
+                label: "Total Deal Days To Close"
+              avg_deal_days_to_close:
+                type: average
+                label: "Average Deal Days To Close"
+        - name: deal_number_of_sprints
+          meta:
+            dimension:
+              label: "Deal Number Of Sprints"
+              type: number
+              hidden: yes
+            metrics:
+              total_deal_number_of_sprints:
+                type: sum
+                label: "Total Deal Number Of Sprints"
+              avg_deal_number_of_sprints:
+                type: average
+                label: "Average Deal Number Of Sprints"
+        - name: days_in_deal_stage_0
+          meta:
+            dimension:
+              label: "Days In Deal Stage 0"
+              type: number
+              hidden: yes
+            metrics:
+              total_days_in_deal_stage_0:
+                type: sum
+                label: "Total Days In Deal Stage 0"
+              avg_days_in_deal_stage_0:
+                type: average
+                label: "Average Days In Deal Stage 0"
+        - name: days_in_deal_stage_1
+          meta:
+            dimension:
+              label: "Days In Deal Stage 1"
+              type: number
+              hidden: yes
+            metrics:
+              total_days_in_deal_stage_1:
+                type: sum
+                label: "Total Days In Deal Stage 1"
+              avg_days_in_deal_stage_1:
+                type: average
+                label: "Average Days In Deal Stage 1"
+        - name: days_in_deal_stage_2
+          meta:
+            dimension:
+              label: "Days In Deal Stage 2"
+              type: number
+              hidden: yes
+            metrics:
+              total_days_in_deal_stage_2:
+                type: sum
+                label: "Total Days In Deal Stage 2"
+              avg_days_in_deal_stage_2:
+                type: average
+                label: "Average Days In Deal Stage 2"
+        - name: days_in_deal_stage_3
+          meta:
+            dimension:
+              label: "Days In Deal Stage 3"
+              type: number
+              hidden: yes
+            metrics:
+              total_days_in_deal_stage_3:
+                type: sum
+                label: "Total Days In Deal Stage 3"
+              avg_days_in_deal_stage_3:
+                type: average
+                label: "Average Days In Deal Stage 3"
+        - name: days_in_deal_stage_4
+          meta:
+            dimension:
+              label: "Days In Deal Stage 4"
+              type: number
+              hidden: yes
+            metrics:
+              total_days_in_deal_stage_4:
+                type: sum
+                label: "Total Days In Deal Stage 4"
+              avg_days_in_deal_stage_4:
+                type: average
+                label: "Average Days In Deal Stage 4"
+        - name: days_in_deal_stage_5
+          meta:
+            dimension:
+              label: "Days In Deal Stage 5"
+              type: number
+              hidden: yes
+            metrics:
+              total_days_in_deal_stage_5:
+                type: sum
+                label: "Total Days In Deal Stage 5"
+              avg_days_in_deal_stage_5:
+                type: average
+                label: "Average Days In Deal Stage 5"
+        - name: days_in_deal_stage_6
+          meta:
+            dimension:
+              label: "Days In Deal Stage 6"
+              type: number
+              hidden: yes
+            metrics:
+              total_days_in_deal_stage_6:
+                type: sum
+                label: "Total Days In Deal Stage 6"
+              avg_days_in_deal_stage_6:
+                type: average
+                label: "Average Days In Deal Stage 6"
+        - name: days_in_deal_stage_7
+          meta:
+            dimension:
+              label: "Days In Deal Stage 7"
+              type: number
+              hidden: yes
+            metrics:
+              total_days_in_deal_stage_7:
+                type: sum
+                label: "Total Days In Deal Stage 7"
+              avg_days_in_deal_stage_7:
+                type: average
+                label: "Average Days In Deal Stage 7"
+        - name: days_in_deal_stage_8
+          meta:
+            dimension:
+              label: "Days In Deal Stage 8"
+              type: number
+              hidden: yes
+            metrics:
+              total_days_in_deal_stage_8:
+                type: sum
+                label: "Total Days In Deal Stage 8"
+              avg_days_in_deal_stage_8:
+                type: average
+                label: "Average Days In Deal Stage 8"
+        - name: days_in_deal_stage_9
+          meta:
+            dimension:
+              label: "Days In Deal Stage 9"
+              type: number
+              hidden: yes
+            metrics:
+              total_days_in_deal_stage_9:
+                type: sum
+                label: "Total Days In Deal Stage 9"
+              avg_days_in_deal_stage_9:
+                type: average
+                label: "Average Days In Deal Stage 9"
+        - name: days_in_deal_stage_10
+          meta:
+            dimension:
+              label: "Days In Deal Stage 10"
+              type: number
+              hidden: yes
+            metrics:
+              total_days_in_deal_stage_10:
+                type: sum
+                label: "Total Days In Deal Stage 10"
+              avg_days_in_deal_stage_10:
+                type: average
+                label: "Average Days In Deal Stage 10"
+        - name: forecast_probability
+          meta:
+            dimension:
+              label: "Forecast Probability"
+              type: number
+              hidden: yes
+            metrics:
+              total_forecast_probability:
+                type: sum
+                label: "Total Forecast Probability"
+              avg_forecast_probability:
+                type: average
+                label: "Average Forecast Probability"
+        - name: days_in_pipeline
+          meta:
+            dimension:
+              label: "Days In Pipeline"
+              type: number
+              hidden: yes
+            metrics:
+              total_days_in_pipeline:
+                type: sum
+                label: "Total Days In Pipeline"
+              avg_days_in_pipeline:
+                type: average
+                label: "Average Days In Pipeline"
+        - name: pipeline_stage_close_probability_pct
+          meta:
+            dimension:
+              label: "Pipeline Stage Close Probability Pct"
+              type: number
+              hidden: yes
+            metrics:
+              total_pipeline_stage_close_probability_pct:
+                type: sum
+                label: "Total Pipeline Stage Close Probability Pct"
+              avg_pipeline_stage_close_probability_pct:
+                type: average
+                label: "Average Pipeline Stage Close Probability Pct"
+
+    - name: wh_delivery_projects_dim
+      meta:
+        label: "Delivery Projects"
+      columns:
+        - name: delivery_project_pk
+          meta:
+            dimension:
+              label: "Delivery Project Key"
+              type: string
+              hidden: no
+        - name: project_id
+          meta:
+            dimension:
+              label: "Project Id"
+              type: string
+              hidden: no
+        - name: company_pk
+          meta:
+            dimension:
+              label: "Company Key"
+              type: string
+              hidden: no
+        - name: project_name
+          meta:
+            dimension:
+              label: "Project Name"
+              type: string
+              hidden: no
+        - name: project_status
+          meta:
+            dimension:
+              label: "Project Status"
+              type: string
+              hidden: no
+        - name: project_notes
+          meta:
+            dimension:
+              label: "Project Notes"
+              type: string
+              hidden: no
+        - name: project_type
+          meta:
+            dimension:
+              label: "Project Type"
+              type: string
+              hidden: no
+        - name: project_category_description
+          meta:
+            dimension:
+              label: "Project Category Description"
+              type: string
+              hidden: no
+        - name: project_category_name
+          meta:
+            dimension:
+              label: "Project Category Name"
+              type: string
+              hidden: no
+        - name: project_created_at_ts
+          meta:
+            dimension:
+              label: "Project Created At"
+              type: timestamp
+              time_intervals: default
+        - name: project_modified_at_ts
+          meta:
+            dimension:
+              label: "Project Modified At"
+              type: timestamp
+              time_intervals: default
+
+    - name: wh_delivery_tasks_fact
+      meta:
+        label: "Delivery Tasks"
+      columns:
+        - name: delivery_task_pk
+          meta:
+            dimension:
+              label: "Delivery Task Key"
+              type: string
+              hidden: no
+        - name: delivery_project_pk
+          meta:
+            dimension:
+              label: "Delivery Project Key"
+              type: string
+              hidden: no
+        - name: contact_pk
+          meta:
+            dimension:
+              label: "Contact Key"
+              type: string
+              hidden: no
+        - name: source
+          meta:
+            dimension:
+              label: "Source"
+              type: string
+              hidden: no
+        - name: task_id
+          meta:
+            dimension:
+              label: "Task Id"
+              type: string
+              hidden: no
+        - name: parent_task_id
+          meta:
+            dimension:
+              label: "Parent Task Id"
+              type: string
+              hidden: no
+        - name: project_id
+          meta:
+            dimension:
+              label: "Project Id"
+              type: string
+              hidden: no
+        - name: task_creator_user_id
+          meta:
+            dimension:
+              label: "Task Creator User Id"
+              type: string
+              hidden: no
+        - name: task_assignee_user_id
+          meta:
+            dimension:
+              label: "Task Assignee User Id"
+              type: string
+              hidden: no
+        - name: task_name
+          meta:
+            dimension:
+              label: "Task Name"
+              type: string
+              hidden: no
+        - name: task_type
+          meta:
+            dimension:
+              label: "Task Type"
+              type: string
+              hidden: no
+        - name: task_description
+          meta:
+            dimension:
+              label: "Task Description"
+              type: string
+              hidden: no
+        - name: task_url
+          meta:
+            dimension:
+              label: "Task Url"
+              type: string
+              hidden: no
+        - name: task_status
+          meta:
+            dimension:
+              label: "Task Status"
+              type: string
+              hidden: no
+        - name: task_status_colour
+          meta:
+            dimension:
+              label: "Task Status Colour"
+              type: string
+              hidden: no
+        - name: deliverable_id
+          meta:
+            dimension:
+              label: "Deliverable Id"
+              type: string
+              hidden: no
+        - name: deliverable_type
+          meta:
+            dimension:
+              label: "Deliverable Type"
+              type: string
+              hidden: no
+        - name: deliverable_category
+          meta:
+            dimension:
+              label: "Deliverable Category"
+              type: string
+              hidden: no
+        - name: sprint_name
+          meta:
+            dimension:
+              label: "Sprint Name"
+              type: string
+              hidden: no
+        - name: sprint_board_url
+          meta:
+            dimension:
+              label: "Sprint Board Url"
+              type: string
+              hidden: no
+        - name: sprint_goal
+          meta:
+            dimension:
+              label: "Sprint Goal"
+              type: string
+              hidden: no
+        - name: task_completed_ts
+          meta:
+            dimension:
+              label: "Task Completed"
+              type: timestamp
+              time_intervals: default
+        - name: task_status_change_ts
+          meta:
+            dimension:
+              label: "Task Status Change"
+              type: timestamp
+              time_intervals: default
+        - name: task_end_ts
+          meta:
+            dimension:
+              label: "Task End"
+              type: timestamp
+              time_intervals: default
+        - name: task_start_ts
+          meta:
+            dimension:
+              label: "Task Start"
+              type: timestamp
+              time_intervals: default
+        - name: last_task_start_ts
+          meta:
+            dimension:
+              label: "Last Task Start"
+              type: timestamp
+              time_intervals: default
+        - name: task_created_ts
+          meta:
+            dimension:
+              label: "Task Created"
+              type: timestamp
+              time_intervals: default
+        - name: task_last_modified_ts
+          meta:
+            dimension:
+              label: "Task Last Modified"
+              type: timestamp
+              time_intervals: default
+        - name: task_is_completed
+          meta:
+            dimension:
+              label: "Task Is Completed"
+              type: boolean
+              hidden: no
+        - name: is_latest_task_version
+          meta:
+            dimension:
+              label: "Is Latest Task Version"
+              type: boolean
+              hidden: no
+        - name: task_status_workflow_stage_number
+          meta:
+            dimension:
+              label: "Task Status Workflow Stage Number"
+              type: number
+              hidden: no
+        - name: total_task_hours_to_complete
+          meta:
+            dimension:
+              label: "Total Task Hours To Complete"
+              type: number
+              hidden: no
+        - name: total_task_hours_incomplete
+          meta:
+            dimension:
+              label: "Total Task Hours Incomplete"
+              type: number
+              hidden: no
+        - name: total_completed
+          meta:
+            dimension:
+              label: "Total Completed"
+              type: number
+              hidden: no
+        - name: total_in_progress
+          meta:
+            dimension:
+              label: "Total In Progress"
+              type: number
+              hidden: no
+        - name: total_failed_client_qa
+          meta:
+            dimension:
+              label: "Total Failed Client Qa"
+              type: number
+              hidden: no
+        - name: total_to_do
+          meta:
+            dimension:
+              label: "Total To Do"
+              type: number
+              hidden: no
+        - name: total_blocked
+          meta:
+            dimension:
+              label: "Total Blocked"
+              type: number
+              hidden: no
+        - name: total_in_client_qa
+          meta:
+            dimension:
+              label: "Total In Client Qa"
+              type: number
+              hidden: no
+        - name: total_in_qa
+          meta:
+            dimension:
+              label: "Total In Qa"
+              type: number
+              hidden: no
+        - name: total_in_design
+          meta:
+            dimension:
+              label: "Total In Design"
+              type: number
+              hidden: no
+        - name: total_in_add_to_looker
+          meta:
+            dimension:
+              label: "Total In Add To Looker"
+              type: number
+              hidden: no
+        - name: total_in_looker_qa
+          meta:
+            dimension:
+              label: "Total In Looker Qa"
+              type: number
+              hidden: no
+        - name: total_revision_required
+          meta:
+            dimension:
+              label: "Total Revision Required"
+              type: number
+              hidden: no
+        - name: total_failed_internal_qa
+          meta:
+            dimension:
+              label: "Total Failed Internal Qa"
+              type: number
+              hidden: no
+        - name: total_delivery_tasks
+          meta:
+            dimension:
+              label: "Total Delivery Tasks"
+              type: number
+              hidden: no
+        - name: total_delivery_subtasks
+          meta:
+            dimension:
+              label: "Total Delivery Subtasks"
+              type: number
+              hidden: no
+        - name: total_issues
+          meta:
+            dimension:
+              label: "Total Issues"
+              type: number
+              hidden: no
+
+    - name: wh_delivery_team_fact_xa
+      meta:
+        label: "Delivery Team Fact"
+      columns:
+        - name: contact_pk
+          meta:
+            dimension:
+              label: "Contact Key"
+              type: string
+              hidden: no
+        - name: contact_name
+          meta:
+            dimension:
+              label: "Contact Name"
+              type: string
+              hidden: no
+        - name: first_billing_date
+          meta:
+            dimension:
+              label: "First Billing Date"
+              type: timestamp
+              time_intervals: default
+        - name: last_billing_date
+          meta:
+            dimension:
+              label: "Last Billing Date"
+              type: timestamp
+              time_intervals: default
+        - name: is_current_employee
+          meta:
+            dimension:
+              label: "Is Current Employee"
+              type: boolean
+              hidden: no
+        - name: months_employed
+          meta:
+            dimension:
+              label: "Months Employed"
+              type: number
+              hidden: no
+        - name: total_clients
+          meta:
+            dimension:
+              label: "Total Clients"
+              type: number
+              hidden: no
+        - name: total_projects
+          meta:
+            dimension:
+              label: "Total Projects"
+              type: number
+              hidden: no
+        - name: hours_potentially_billable
+          meta:
+            dimension:
+              label: "Hours Potentially Billable"
+              type: number
+              hidden: no
+        - name: total_billable_hours
+          meta:
+            dimension:
+              label: "Total Billable Hours"
+              type: number
+              hidden: yes
+            metrics:
+              total_total_billable_hours:
+                type: sum
+                label: "Total Total Billable Hours"
+              avg_total_billable_hours:
+                type: average
+                label: "Average Total Billable Hours"
+        - name: total_non_billable_hours
+          meta:
+            dimension:
+              label: "Total Non Billable Hours"
+              type: number
+              hidden: yes
+            metrics:
+              total_total_non_billable_hours:
+                type: sum
+                label: "Total Total Non Billable Hours"
+              avg_total_non_billable_hours:
+                type: average
+                label: "Average Total Non Billable Hours"
+        - name: billable_utilisation_pct
+          meta:
+            dimension:
+              label: "Billable Utilisation Pct"
+              type: number
+              hidden: yes
+            metrics:
+              total_billable_utilisation_pct:
+                type: sum
+                label: "Total Billable Utilisation Pct"
+              avg_billable_utilisation_pct:
+                type: average
+                label: "Average Billable Utilisation Pct"
+        - name: total_utilisation_pct
+          meta:
+            dimension:
+              label: "Total Utilisation Pct"
+              type: number
+              hidden: yes
+            metrics:
+              total_total_utilisation_pct:
+                type: sum
+                label: "Total Total Utilisation Pct"
+              avg_total_utilisation_pct:
+                type: average
+                label: "Average Total Utilisation Pct"
+
+    - name: wh_email_events_fact
+      meta:
+        label: "Email Events"
+      columns:
+        - name: email_event_pk
+          meta:
+            dimension:
+              label: "Email Event Key"
+              type: string
+              hidden: no
+        - name: contact_pk
+          meta:
+            dimension:
+              label: "Contact Key"
+              type: string
+              hidden: no
+        - name: ad_campaign_pk
+          meta:
+            dimension:
+              label: "Ad Campaign Key"
+              type: string
+              hidden: no
+        - name: source
+          meta:
+            dimension:
+              label: "Source"
+              type: string
+              hidden: no
+        - name: ad_campaign_id
+          meta:
+            dimension:
+              label: "Ad Campaign Id"
+              type: string
+              hidden: no
+        - name: action
+          meta:
+            dimension:
+              label: "Action"
+              type: string
+              hidden: no
+        - name: type
+          meta:
+            dimension:
+              label: "Type"
+              type: string
+              hidden: no
+        - name: email_address
+          meta:
+            dimension:
+              label: "Email Address"
+              type: string
+              hidden: no
+        - name: url
+          meta:
+            dimension:
+              label: "Url"
+              type: string
+              hidden: no
+        - name: event_ts
+          meta:
+            dimension:
+              label: "Event"
+              type: timestamp
+              time_intervals: default
+
+    - name: wh_email_lists_dim
+      meta:
+        label: "Email Lists"
+      columns:
+        - name: list_pk
+          meta:
+            dimension:
+              label: "List Key"
+              type: string
+              hidden: no
+        - name: source
+          meta:
+            dimension:
+              label: "Source"
+              type: string
+              hidden: no
+        - name: list_member_id
+          meta:
+            dimension:
+              label: "List Member Id"
+              type: string
+              hidden: no
+        - name: contact_email
+          meta:
+            dimension:
+              label: "Contact Email"
+              type: string
+              hidden: no
+        - name: list_member_status
+          meta:
+            dimension:
+              label: "List Member Status"
+              type: string
+              hidden: no
+        - name: list_id
+          meta:
+            dimension:
+              label: "List Id"
+              type: string
+              hidden: no
+        - name: unsubscribe_reason_type
+          meta:
+            dimension:
+              label: "Unsubscribe Reason Type"
+              type: string
+              hidden: no
+        - name: list_member_ts
+          meta:
+            dimension:
+              label: "List Member"
+              type: timestamp
+              time_intervals: default
+
+    - name: wh_employee_costs_fact
+      meta:
+        label: "Employee Costs"
+      columns:
+        - name: employee_costs_fact_pk
+          meta:
+            dimension:
+              label: "Employee Costs Fact Key"
+              type: string
+              hidden: no
+        - name: Employee_Name
+          meta:
+            dimension:
+              label: "Employee Name"
+              type: string
+              hidden: no
+        - name: general_ledger_fact_reference
+          meta:
+            dimension:
+              label: "General Ledger Fact Reference"
+              type: string
+              hidden: no
+        - name: Employment_Cost_Type
+          meta:
+            dimension:
+              label: "Employment Cost Type"
+              type: string
+              hidden: no
+        - name: journal_month
+          meta:
+            dimension:
+              label: "Journal Month"
+              type: date
+              time_intervals: default
+        - name: general_ledger_fact_net_amount
+          meta:
+            dimension:
+              label: "General Ledger Fact Net Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_general_ledger_fact_net_amount:
+                type: sum
+                label: "Total General Ledger Fact Net Amount"
+              avg_general_ledger_fact_net_amount:
+                type: average
+                label: "Average General Ledger Fact Net Amount"
+
+    - name: wh_general_ledger_fact
+      meta:
+        label: "General Ledger"
+      columns:
+        - name: journal_pk
+          meta:
+            dimension:
+              label: "Journal Key"
+              type: string
+              hidden: no
+        - name: journal_id
+          meta:
+            dimension:
+              label: "Journal Id"
+              type: string
+              hidden: no
+        - name: reference
+          meta:
+            dimension:
+              label: "Reference"
+              type: string
+              hidden: no
+        - name: source_id
+          meta:
+            dimension:
+              label: "Source Id"
+              type: string
+              hidden: no
+        - name: source_type
+          meta:
+            dimension:
+              label: "Source Type"
+              type: string
+              hidden: no
+        - name: journal_line_id
+          meta:
+            dimension:
+              label: "Journal Line Id"
+              type: string
+              hidden: no
+        - name: account_code
+          meta:
+            dimension:
+              label: "Account Code"
+              type: string
+              hidden: no
+        - name: account_id
+          meta:
+            dimension:
+              label: "Account Id"
+              type: string
+              hidden: no
+        - name: account_name
+          meta:
+            dimension:
+              label: "Account Name"
+              type: string
+              hidden: no
+        - name: account_type
+          meta:
+            dimension:
+              label: "Account Type"
+              type: string
+              hidden: no
+        - name: description
+          meta:
+            dimension:
+              label: "Description"
+              type: string
+              hidden: no
+        - name: tax_name
+          meta:
+            dimension:
+              label: "Tax Name"
+              type: string
+              hidden: no
+        - name: tax_type
+          meta:
+            dimension:
+              label: "Tax Type"
+              type: string
+              hidden: no
+        - name: account_class
+          meta:
+            dimension:
+              label: "Account Class"
+              type: string
+              hidden: no
+        - name: account_report_category
+          meta:
+            dimension:
+              label: "Account Report Category"
+              type: string
+              hidden: no
+        - name: account_report_sub_category
+          meta:
+            dimension:
+              label: "Account Report Sub Category"
+              type: string
+              hidden: no
+        - name: account_report_group
+          meta:
+            dimension:
+              label: "Account Report Group"
+              type: string
+              hidden: no
+        - name: invoice_id
+          meta:
+            dimension:
+              label: "Invoice Id"
+              type: string
+              hidden: no
+        - name: bank_transaction_id
+          meta:
+            dimension:
+              label: "Bank Transaction Id"
+              type: string
+              hidden: no
+        - name: bank_transfer_id
+          meta:
+            dimension:
+              label: "Bank Transfer Id"
+              type: string
+              hidden: no
+        - name: manual_journal_id
+          meta:
+            dimension:
+              label: "Manual Journal Id"
+              type: string
+              hidden: no
+        - name: payment_id
+          meta:
+            dimension:
+              label: "Payment Id"
+              type: string
+              hidden: no
+        - name: credit_note_id
+          meta:
+            dimension:
+              label: "Credit Note Id"
+              type: string
+              hidden: no
+        - name: journal_date
+          meta:
+            dimension:
+              label: "Journal"
+              type: date
+              time_intervals: default
+        - name: journal_number
+          meta:
+            dimension:
+              label: "Journal Number"
+              type: number
+              hidden: no
+        - name: account_report_order
+          meta:
+            dimension:
+              label: "Account Report Order"
+              type: number
+              hidden: no
+        - name: gross_amount
+          meta:
+            dimension:
+              label: "Gross Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_gross_amount:
+                type: sum
+                label: "Total Gross Amount"
+              avg_gross_amount:
+                type: average
+                label: "Average Gross Amount"
+        - name: net_amount
+          meta:
+            dimension:
+              label: "Net Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_net_amount:
+                type: sum
+                label: "Total Net Amount"
+              avg_net_amount:
+                type: average
+                label: "Average Net Amount"
+        - name: tax_amount
+          meta:
+            dimension:
+              label: "Tax Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_tax_amount:
+                type: sum
+                label: "Total Tax Amount"
+              avg_tax_amount:
+                type: average
+                label: "Average Tax Amount"
+
+    - name: wh_invoices_fact
+      meta:
+        label: "Invoices"
+      columns:
+        - name: invoice_pk
+          meta:
+            dimension:
+              label: "Invoice Key"
+              type: string
+              hidden: no
+        - name: company_pk
+          meta:
+            dimension:
+              label: "Company Key"
+              type: string
+              hidden: no
+        - name: timesheet_project_pk
+          meta:
+            dimension:
+              label: "Timesheet Project Key"
+              type: string
+              hidden: no
+        - name: invoice_number
+          meta:
+            dimension:
+              label: "Invoice Number"
+              type: string
+              hidden: no
+        - name: company_id
+          meta:
+            dimension:
+              label: "Company Id"
+              type: string
+              hidden: no
+        - name: project_id
+          meta:
+            dimension:
+              label: "Project Id"
+              type: string
+              hidden: no
+        - name: invoice_creator_users_id
+          meta:
+            dimension:
+              label: "Invoice Creator Users Id"
+              type: string
+              hidden: no
+        - name: invoice_subject
+          meta:
+            dimension:
+              label: "Invoice Subject"
+              type: string
+              hidden: no
+        - name: invoice_currency
+          meta:
+            dimension:
+              label: "Invoice Currency"
+              type: string
+              hidden: no
+        - name: invoice_tax_rate_pct
+          meta:
+            dimension:
+              label: "Invoice Tax Rate Pct"
+              type: string
+              hidden: no
+        - name: invoice_payment_term
+          meta:
+            dimension:
+              label: "Invoice Payment Term"
+              type: string
+              hidden: no
+        - name: invoice_status
+          meta:
+            dimension:
+              label: "Invoice Status"
+              type: string
+              hidden: no
+        - name: invoice_type
+          meta:
+            dimension:
+              label: "Invoice Type"
+              type: string
+              hidden: no
+        - name: first_invoice_month
+          meta:
+            dimension:
+              label: "First Invoice Month"
+              type: timestamp
+              time_intervals: default
+        - name: last_invoice_month
+          meta:
+            dimension:
+              label: "Last Invoice Month"
+              type: timestamp
+              time_intervals: default
+        - name: first_invoice_quarter
+          meta:
+            dimension:
+              label: "First Invoice Quarter"
+              type: timestamp
+              time_intervals: default
+        - name: invoice_created_at_ts
+          meta:
+            dimension:
+              label: "Invoice Created At"
+              type: timestamp
+              time_intervals: default
+        - name: invoice_issue_at_ts
+          meta:
+            dimension:
+              label: "Invoice Issue At"
+              type: timestamp
+              time_intervals: default
+        - name: invoice_due_at_ts
+          meta:
+            dimension:
+              label: "Invoice Due At"
+              type: timestamp
+              time_intervals: default
+        - name: invoice_sent_at_ts
+          meta:
+            dimension:
+              label: "Invoice Sent At"
+              type: timestamp
+              time_intervals: default
+        - name: invoice_paid_at_ts
+          meta:
+            dimension:
+              label: "Invoice Paid At"
+              type: timestamp
+              time_intervals: default
+        - name: invoice_period_start_at_ts
+          meta:
+            dimension:
+              label: "Invoice Period Start At"
+              type: timestamp
+              time_intervals: default
+        - name: invoice_period_end_at_ts
+          meta:
+            dimension:
+              label: "Invoice Period End At"
+              type: timestamp
+              time_intervals: default
+        - name: invoice_seq
+          meta:
+            dimension:
+              label: "Invoice Seq"
+              type: number
+              hidden: no
+        - name: months_since_first_invoice
+          meta:
+            dimension:
+              label: "Months Since First Invoice"
+              type: number
+              hidden: no
+        - name: months_before_last_invoice
+          meta:
+            dimension:
+              label: "Months Before Last Invoice"
+              type: number
+              hidden: no
+        - name: invoice_months_before_now
+          meta:
+            dimension:
+              label: "Invoice Months Before Now"
+              type: number
+              hidden: no
+        - name: quarters_since_first_invoice
+          meta:
+            dimension:
+              label: "Quarters Since First Invoice"
+              type: number
+              hidden: no
+        - name: invoice_total_days_to_pay
+          meta:
+            dimension:
+              label: "Invoice Total Days To Pay"
+              type: number
+              hidden: no
+        - name: invoice_total_days_variance_on_payment_terms
+          meta:
+            dimension:
+              label: "Invoice Total Days Variance On Payment Terms"
+              type: number
+              hidden: no
+        - name: invoice_total_days_overdue
+          meta:
+            dimension:
+              label: "Invoice Total Days Overdue"
+              type: number
+              hidden: no
+        - name: invoice_local_total_revenue_amount
+          meta:
+            dimension:
+              label: "Invoice Local Total Revenue Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_invoice_local_total_revenue_amount:
+                type: sum
+                label: "Total Invoice Local Total Revenue Amount"
+              avg_invoice_local_total_revenue_amount:
+                type: average
+                label: "Average Invoice Local Total Revenue Amount"
+        - name: total_local_amount
+          meta:
+            dimension:
+              label: "Total Local Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_total_local_amount:
+                type: sum
+                label: "Total Total Local Amount"
+              avg_total_local_amount:
+                type: average
+                label: "Average Total Local Amount"
+        - name: invoice_local_total_billed_amount
+          meta:
+            dimension:
+              label: "Invoice Local Total Billed Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_invoice_local_total_billed_amount:
+                type: sum
+                label: "Total Invoice Local Total Billed Amount"
+              avg_invoice_local_total_billed_amount:
+                type: average
+                label: "Average Invoice Local Total Billed Amount"
+        - name: invoice_local_total_services_amount
+          meta:
+            dimension:
+              label: "Invoice Local Total Services Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_invoice_local_total_services_amount:
+                type: sum
+                label: "Total Invoice Local Total Services Amount"
+              avg_invoice_local_total_services_amount:
+                type: average
+                label: "Average Invoice Local Total Services Amount"
+        - name: invoice_local_total_licence_referral_fee_amount
+          meta:
+            dimension:
+              label: "Invoice Local Total Licence Referral Fee Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_invoice_local_total_licence_referral_fee_amount:
+                type: sum
+                label: "Total Invoice Local Total Licence Referral Fee Amount"
+              avg_invoice_local_total_licence_referral_fee_amount:
+                type: average
+                label: "Average Invoice Local Total Licence Referral Fee Amount"
+        - name: invoice_local_total_expenses_amount
+          meta:
+            dimension:
+              label: "Invoice Local Total Expenses Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_invoice_local_total_expenses_amount:
+                type: sum
+                label: "Total Invoice Local Total Expenses Amount"
+              avg_invoice_local_total_expenses_amount:
+                type: average
+                label: "Average Invoice Local Total Expenses Amount"
+        - name: invoice_local_total_support_amount
+          meta:
+            dimension:
+              label: "Invoice Local Total Support Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_invoice_local_total_support_amount:
+                type: sum
+                label: "Total Invoice Local Total Support Amount"
+              avg_invoice_local_total_support_amount:
+                type: average
+                label: "Average Invoice Local Total Support Amount"
+        - name: invoice_local_total_tax_amount
+          meta:
+            dimension:
+              label: "Invoice Local Total Tax Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_invoice_local_total_tax_amount:
+                type: sum
+                label: "Total Invoice Local Total Tax Amount"
+              avg_invoice_local_total_tax_amount:
+                type: average
+                label: "Average Invoice Local Total Tax Amount"
+        - name: invoice_local_total_due_amount
+          meta:
+            dimension:
+              label: "Invoice Local Total Due Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_invoice_local_total_due_amount:
+                type: sum
+                label: "Total Invoice Local Total Due Amount"
+              avg_invoice_local_total_due_amount:
+                type: average
+                label: "Average Invoice Local Total Due Amount"
+
+    - name: wh_journals_fact
+      meta:
+        label: "Journals"
+      columns:
+        - name: journal_pk
+          meta:
+            dimension:
+              label: "Journal Key"
+              type: string
+              hidden: no
+        - name: source
+          meta:
+            dimension:
+              label: "Source"
+              type: string
+              hidden: no
+        - name: journal_id
+          meta:
+            dimension:
+              label: "Journal Id"
+              type: string
+              hidden: no
+        - name: reference
+          meta:
+            dimension:
+              label: "Reference"
+              type: string
+              hidden: no
+        - name: source_id
+          meta:
+            dimension:
+              label: "Source Id"
+              type: string
+              hidden: no
+        - name: source_type
+          meta:
+            dimension:
+              label: "Source Type"
+              type: string
+              hidden: no
+        - name: account_code
+          meta:
+            dimension:
+              label: "Account Code"
+              type: string
+              hidden: no
+        - name: account_id
+          meta:
+            dimension:
+              label: "Account Id"
+              type: string
+              hidden: no
+        - name: account_name
+          meta:
+            dimension:
+              label: "Account Name"
+              type: string
+              hidden: no
+        - name: account_type
+          meta:
+            dimension:
+              label: "Account Type"
+              type: string
+              hidden: no
+        - name: description
+          meta:
+            dimension:
+              label: "Description"
+              type: string
+              hidden: no
+        - name: journal_line_id
+          meta:
+            dimension:
+              label: "Journal Line Id"
+              type: string
+              hidden: no
+        - name: tax_name
+          meta:
+            dimension:
+              label: "Tax Name"
+              type: string
+              hidden: no
+        - name: tax_type
+          meta:
+            dimension:
+              label: "Tax Type"
+              type: string
+              hidden: no
+        - name: journal_date
+          meta:
+            dimension:
+              label: "Journal"
+              type: date
+              time_intervals: default
+        - name: journal_number
+          meta:
+            dimension:
+              label: "Journal Number"
+              type: number
+              hidden: no
+        - name: gross_amount
+          meta:
+            dimension:
+              label: "Gross Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_gross_amount:
+                type: sum
+                label: "Total Gross Amount"
+              avg_gross_amount:
+                type: average
+                label: "Average Gross Amount"
+        - name: net_amount
+          meta:
+            dimension:
+              label: "Net Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_net_amount:
+                type: sum
+                label: "Total Net Amount"
+              avg_net_amount:
+                type: average
+                label: "Average Net Amount"
+        - name: tax_amount
+          meta:
+            dimension:
+              label: "Tax Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_tax_amount:
+                type: sum
+                label: "Total Tax Amount"
+              avg_tax_amount:
+                type: average
+                label: "Average Tax Amount"
+
+    - name: wh_looker_usage_fact
+      meta:
+        label: "Looker Usage"
+      columns:
+        - name: looker_usage_pk
+          meta:
+            dimension:
+              label: "Looker Usage Key"
+              type: string
+              hidden: no
+        - name: company_pk
+          meta:
+            dimension:
+              label: "Company Key"
+              type: string
+              hidden: no
+        - name: contact_pk
+          meta:
+            dimension:
+              label: "Contact Key"
+              type: string
+              hidden: no
+        - name: dialect
+          meta:
+            dimension:
+              label: "Dialect"
+              type: string
+              hidden: no
+        - name: issuer_source
+          meta:
+            dimension:
+              label: "Issuer Source"
+              type: string
+              hidden: no
+        - name: rebuild_pdts_yes_no_
+          meta:
+            dimension:
+              label: "Rebuild Pdts Yes No "
+              type: string
+              hidden: no
+        - name: status
+          meta:
+            dimension:
+              label: "Status"
+              type: string
+              hidden: no
+        - name: title
+          meta:
+            dimension:
+              label: "Title"
+              type: string
+              hidden: no
+        - name: explore
+          meta:
+            dimension:
+              label: "Explore"
+              type: string
+              hidden: no
+        - name: dashboard_title
+          meta:
+            dimension:
+              label: "Dashboard Title"
+              type: string
+              hidden: no
+        - name: id
+          meta:
+            dimension:
+              label: "Id"
+              type: number
+              hidden: no
+        - name: approximate_web_usage_in_minutes
+          meta:
+            dimension:
+              label: "Approximate Web Usage In Minutes"
+              type: number
+              hidden: no
+        - name: average_runtime_in_seconds
+          meta:
+            dimension:
+              label: "Average Runtime In Seconds"
+              type: number
+              hidden: yes
+            metrics:
+              total_average_runtime_in_seconds:
+                type: sum
+                label: "Total Average Runtime In Seconds"
+              avg_average_runtime_in_seconds:
+                type: average
+                label: "Average Average Runtime In Seconds"
+
+    - name: wh_payments_fact
+      meta:
+        label: "Payments"
+      columns:
+        - name: payment_pk
+          meta:
+            dimension:
+              label: "Payment Key"
+              type: string
+              hidden: no
+        - name: source
+          meta:
+            dimension:
+              label: "Source"
+              type: string
+              hidden: no
+        - name: payment_id
+          meta:
+            dimension:
+              label: "Payment Id"
+              type: string
+              hidden: no
+        - name: account_id
+          meta:
+            dimension:
+              label: "Account Id"
+              type: string
+              hidden: no
+        - name: payment_code
+          meta:
+            dimension:
+              label: "Payment Code"
+              type: string
+              hidden: no
+        - name: company_id
+          meta:
+            dimension:
+              label: "Company Id"
+              type: string
+              hidden: no
+        - name: currency_code
+          meta:
+            dimension:
+              label: "Currency Code"
+              type: string
+              hidden: no
+        - name: invoice_number
+          meta:
+            dimension:
+              label: "Invoice Number"
+              type: string
+              hidden: no
+        - name: invoice_id
+          meta:
+            dimension:
+              label: "Invoice Id"
+              type: string
+              hidden: no
+        - name: invoice_type
+          meta:
+            dimension:
+              label: "Invoice Type"
+              type: string
+              hidden: no
+        - name: payment_status
+          meta:
+            dimension:
+              label: "Payment Status"
+              type: string
+              hidden: no
+        - name: payment_type
+          meta:
+            dimension:
+              label: "Payment Type"
+              type: string
+              hidden: no
+        - name: payment_reference
+          meta:
+            dimension:
+              label: "Payment Reference"
+              type: string
+              hidden: no
+        - name: payment_date
+          meta:
+            dimension:
+              label: "Payment Date"
+              type: timestamp
+              time_intervals: default
+        - name: payment_is_discounted
+          meta:
+            dimension:
+              label: "Payment Is Discounted"
+              type: boolean
+              hidden: no
+        - name: payment_is_reconciled
+          meta:
+            dimension:
+              label: "Payment Is Reconciled"
+              type: boolean
+              hidden: no
+        - name: payment_amount
+          meta:
+            dimension:
+              label: "Payment Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_payment_amount:
+                type: sum
+                label: "Total Payment Amount"
+              avg_payment_amount:
+                type: average
+                label: "Average Payment Amount"
+        - name: payment_bank_amount
+          meta:
+            dimension:
+              label: "Payment Bank Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_payment_bank_amount:
+                type: sum
+                label: "Total Payment Bank Amount"
+              avg_payment_bank_amount:
+                type: average
+                label: "Average Payment Bank Amount"
+        - name: payment_currency_rate
+          meta:
+            dimension:
+              label: "Payment Currency Rate"
+              type: number
+              hidden: yes
+            metrics:
+              total_payment_currency_rate:
+                type: sum
+                label: "Total Payment Currency Rate"
+              avg_payment_currency_rate:
+                type: average
+                label: "Average Payment Currency Rate"
+
+    - name: wh_product_usage_fact
+      meta:
+        label: "Product Usage"
+      columns:
+        - name: product_usage_pk
+          meta:
+            dimension:
+              label: "Product Usage Key"
+              type: string
+              hidden: no
+        - name: product_pk
+          meta:
+            dimension:
+              label: "Product Key"
+              type: string
+              hidden: no
+        - name: company_pk
+          meta:
+            dimension:
+              label: "Company Key"
+              type: string
+              hidden: no
+        - name: contact_pk
+          meta:
+            dimension:
+              label: "Contact Key"
+              type: string
+              hidden: no
+        - name: source
+          meta:
+            dimension:
+              label: "Source"
+              type: string
+              hidden: no
+        - name: product_account_id
+          meta:
+            dimension:
+              label: "Product Account Id"
+              type: string
+              hidden: no
+        - name: product_id
+          meta:
+            dimension:
+              label: "Product Id"
+              type: string
+              hidden: no
+        - name: product_sku_id
+          meta:
+            dimension:
+              label: "Product Sku Id"
+              type: string
+              hidden: no
+        - name: company_id
+          meta:
+            dimension:
+              label: "Company Id"
+              type: string
+              hidden: no
+        - name: product_project_id
+          meta:
+            dimension:
+              label: "Product Project Id"
+              type: string
+              hidden: no
+        - name: product_usage_location
+          meta:
+            dimension:
+              label: "Product Usage Location"
+              type: string
+              hidden: no
+        - name: product_usage_country
+          meta:
+            dimension:
+              label: "Product Usage Country"
+              type: string
+              hidden: no
+        - name: product_usage_region
+          meta:
+            dimension:
+              label: "Product Usage Region"
+              type: string
+              hidden: no
+        - name: product_usage_zone
+          meta:
+            dimension:
+              label: "Product Usage Zone"
+              type: string
+              hidden: no
+        - name: product_usage_unit
+          meta:
+            dimension:
+              label: "Product Usage Unit"
+              type: string
+              hidden: no
+        - name: product_usage_currency
+          meta:
+            dimension:
+              label: "Product Usage Currency"
+              type: string
+              hidden: no
+        - name: product_usage_query_text
+          meta:
+            dimension:
+              label: "Product Usage Query Text"
+              type: string
+              hidden: no
+        - name: product_usage_priority
+          meta:
+            dimension:
+              label: "Product Usage Priority"
+              type: string
+              hidden: no
+        - name: product_usage_status
+          meta:
+            dimension:
+              label: "Product Usage Status"
+              type: string
+              hidden: no
+        - name: product_usage_error_code
+          meta:
+            dimension:
+              label: "Product Usage Error Code"
+              type: string
+              hidden: no
+        - name: product_usage_error_status
+          meta:
+            dimension:
+              label: "Product Usage Error Status"
+              type: string
+              hidden: no
+        - name: product_usage_job_id
+          meta:
+            dimension:
+              label: "Product Usage Job Id"
+              type: string
+              hidden: no
+        - name: contact_id
+          meta:
+            dimension:
+              label: "Contact Id"
+              type: string
+              hidden: no
+        - name: product_usage_billing_ts
+          meta:
+            dimension:
+              label: "Product Usage Billing"
+              type: timestamp
+              time_intervals: default
+        - name: product_usage_start_ts
+          meta:
+            dimension:
+              label: "Product Usage Start"
+              type: timestamp
+              time_intervals: default
+        - name: product_usage_end_ts
+          meta:
+            dimension:
+              label: "Product Usage End"
+              type: timestamp
+              time_intervals: default
+        - name: product_usage_row_count
+          meta:
+            dimension:
+              label: "Product Usage Row Count"
+              type: number
+              hidden: no
+        - name: product_usage_cost
+          meta:
+            dimension:
+              label: "Product Usage Cost"
+              type: number
+              hidden: yes
+            metrics:
+              total_product_usage_cost:
+                type: sum
+                label: "Total Product Usage Cost"
+              avg_product_usage_cost:
+                type: average
+                label: "Average Product Usage Cost"
+        - name: product_usage_amount
+          meta:
+            dimension:
+              label: "Product Usage Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_product_usage_amount:
+                type: sum
+                label: "Total Product Usage Amount"
+              avg_product_usage_amount:
+                type: average
+                label: "Average Product Usage Amount"
+        - name: product_currency_conversion_rate
+          meta:
+            dimension:
+              label: "Product Currency Conversion Rate"
+              type: number
+              hidden: yes
+            metrics:
+              total_product_currency_conversion_rate:
+                type: sum
+                label: "Total Product Currency Conversion Rate"
+              avg_product_currency_conversion_rate:
+                type: average
+                label: "Average Product Currency Conversion Rate"
+
+    - name: wh_products_dim
+      meta:
+        label: "Products"
+      columns:
+        - name: product_pk
+          meta:
+            dimension:
+              label: "Product Key"
+              type: string
+              hidden: no
+        - name: source
+          meta:
+            dimension:
+              label: "Source"
+              type: string
+              hidden: no
+        - name: product_sku_id
+          meta:
+            dimension:
+              label: "Product Sku Id"
+              type: string
+              hidden: no
+        - name: product_sku_name
+          meta:
+            dimension:
+              label: "Product Sku Name"
+              type: string
+              hidden: no
+        - name: product_id
+          meta:
+            dimension:
+              label: "Product Id"
+              type: string
+              hidden: no
+        - name: product_name
+          meta:
+            dimension:
+              label: "Product Name"
+              type: string
+              hidden: no
+        - name: product_source_id
+          meta:
+            dimension:
+              label: "Product Source Id"
+              type: string
+              hidden: no
+        - name: product_source_name
+          meta:
+            dimension:
+              label: "Product Source Name"
+              type: string
+              hidden: no
+
+    - name: wh_profit_and_loss_report_fact
+      meta:
+        label: "Profit And Loss Report"
+      columns:
+        - name: profit_and_loss_pk
+          meta:
+            dimension:
+              label: "Profit And Loss Key"
+              type: string
+              hidden: no
+        - name: account_id
+          meta:
+            dimension:
+              label: "Account Id"
+              type: string
+              hidden: no
+        - name: account_name
+          meta:
+            dimension:
+              label: "Account Name"
+              type: string
+              hidden: no
+        - name: account_code
+          meta:
+            dimension:
+              label: "Account Code"
+              type: string
+              hidden: no
+        - name: account_type
+          meta:
+            dimension:
+              label: "Account Type"
+              type: string
+              hidden: no
+        - name: account_class
+          meta:
+            dimension:
+              label: "Account Class"
+              type: string
+              hidden: no
+        - name: account_report_category
+          meta:
+            dimension:
+              label: "Account Report Category"
+              type: string
+              hidden: no
+        - name: account_report_sub_category
+          meta:
+            dimension:
+              label: "Account Report Sub Category"
+              type: string
+              hidden: no
+        - name: account_report_group
+          meta:
+            dimension:
+              label: "Account Report Group"
+              type: string
+              hidden: no
+        - name: date_month
+          meta:
+            dimension:
+              label: "Date Month"
+              type: date
+              time_intervals: default
+        - name: account_report_order
+          meta:
+            dimension:
+              label: "Account Report Order"
+              type: number
+              hidden: no
+        - name: net_amount
+          meta:
+            dimension:
+              label: "Net Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_net_amount:
+                type: sum
+                label: "Total Net Amount"
+              avg_net_amount:
+                type: average
+                label: "Average Net Amount"
+
+    - name: wh_sales_funnel_summary_xa
+      meta:
+        label: "Sales Funnel Summary"
+      columns:
+        - name: company_pk
+          meta:
+            dimension:
+              label: "Company Key"
+              type: string
+              hidden: no
+        - name: event_type
+          meta:
+            dimension:
+              label: "Event Type"
+              type: string
+              hidden: no
+        - name: funnel_stage_enter_ts
+          meta:
+            dimension:
+              label: "Funnel Stage Enter"
+              type: timestamp
+              time_intervals: default
+        - name: funnel_stage
+          meta:
+            dimension:
+              label: "Funnel Stage"
+              type: number
+              hidden: no
+        - name: hours_from_last_stage
+          meta:
+            dimension:
+              label: "Hours From Last Stage"
+              type: number
+              hidden: no
+
+    - name: wh_sales_funnel_xa
+      meta:
+        label: "Sales Funnel"
+      columns:
+        - name: user_id
+          meta:
+            dimension:
+              label: "User Id"
+              type: string
+              hidden: no
+        - name: company_pk
+          meta:
+            dimension:
+              label: "Company Key"
+              type: string
+              hidden: no
+        - name: contact_pk
+          meta:
+            dimension:
+              label: "Contact Key"
+              type: string
+              hidden: no
+        - name: event_id
+          meta:
+            dimension:
+              label: "Event Id"
+              type: string
+              hidden: no
+        - name: event_type
+          meta:
+            dimension:
+              label: "Event Type"
+              type: string
+              hidden: no
+        - name: event_details
+          meta:
+            dimension:
+              label: "Event Details"
+              type: string
+              hidden: no
+        - name: device
+          meta:
+            dimension:
+              label: "Device"
+              type: string
+              hidden: no
+        - name: source
+          meta:
+            dimension:
+              label: "Source"
+              type: string
+              hidden: no
+        - name: content
+          meta:
+            dimension:
+              label: "Content"
+              type: string
+              hidden: no
+        - name: medium
+          meta:
+            dimension:
+              label: "Medium"
+              type: string
+              hidden: no
+        - name: campaign
+          meta:
+            dimension:
+              label: "Campaign"
+              type: string
+              hidden: no
+        - name: keyword
+          meta:
+            dimension:
+              label: "Keyword"
+              type: string
+              hidden: no
+        - name: referrer_host
+          meta:
+            dimension:
+              label: "Referrer Host"
+              type: string
+              hidden: no
+        - name: search_term
+          meta:
+            dimension:
+              label: "Search Term"
+              type: string
+              hidden: no
+        - name: event_ts
+          meta:
+            dimension:
+              label: "Event"
+              type: timestamp
+              time_intervals: default
+        - name: funnel_stage
+          meta:
+            dimension:
+              label: "Funnel Stage"
+              type: number
+              hidden: no
+        - name: event_value
+          meta:
+            dimension:
+              label: "Event Value"
+              type: number
+              hidden: yes
+            metrics:
+              total_event_value:
+                type: sum
+                label: "Total Event Value"
+              avg_event_value:
+                type: average
+                label: "Average Event Value"
+
+    - name: wh_timesheet_projects_dim
+      meta:
+        label: "5. Projects"
+        joins:
+          - join: wh_timesheets_fact
+            sql_on: ${wh_timesheet_projects_dim.timesheet_project_pk} = ${wh_timesheets_fact.timesheet_project_pk}
+      columns:
+        - name: timesheet_project_pk
+          meta:
+            dimension:
+              label: "Timesheet Project Key"
+              type: string
+              hidden: no
+        - name: company_pk
+          meta:
+            dimension:
+              label: "Company Key"
+              type: string
+              hidden: no
+        - name: timesheet_project_id
+          meta:
+            dimension:
+              label: "Timesheet Project Id"
+              type: string
+              hidden: no
+        - name: project_name
+          meta:
+            dimension:
+              label: "Project Name"
+              type: string
+              hidden: no
+        - name: project_code
+          meta:
+            dimension:
+              label: "Project Code"
+              type: string
+              hidden: no
+        - name: project_delivery_start_ts
+          meta:
+            dimension:
+              label: "Project Delivery Start Ts"
+              type: string
+              hidden: no
+        - name: project_delivery_end_ts
+          meta:
+            dimension:
+              label: "Project Delivery End Ts"
+              type: string
+              hidden: no
+        - name: project_budget_by
+          meta:
+            dimension:
+              label: "Project Budget By"
+              type: string
+              hidden: no
+        - name: project_is_active
+          meta:
+            dimension:
+              label: "Project Is Active"
+              type: boolean
+              hidden: no
+        - name: project_is_billable
+          meta:
+            dimension:
+              label: "Project Is Billable"
+              type: boolean
+              hidden: no
+        - name: project_is_fixed_fee
+          meta:
+            dimension:
+              label: "Project Is Fixed Fee"
+              type: boolean
+              hidden: no
+        - name: project_is_expenses_included_in_cost_budget
+          meta:
+            dimension:
+              label: "Project Is Expenses Included In Cost Budget"
+              type: boolean
+              hidden: no
+        - name: project_over_budget_notification_pct
+          meta:
+            dimension:
+              label: "Project Over Budget Notification Pct"
+              type: number
+              hidden: no
+        - name: project_duration_days
+          meta:
+            dimension:
+              label: "Project Duration Days"
+              type: number
+              hidden: no
+        - name: total_business_days
+          meta:
+            dimension:
+              label: "Total Business Days"
+              type: number
+              hidden: no
+        - name: total_business_days_burnt
+          meta:
+            dimension:
+              label: "Total Business Days Burnt"
+              type: number
+              hidden: no
+        - name: project_hourly_rate
+          meta:
+            dimension:
+              label: "Project Hourly Rate"
+              type: number
+              hidden: yes
+            metrics:
+              total_project_hourly_rate:
+                type: sum
+                label: "Total Project Hourly Rate"
+              avg_project_hourly_rate:
+                type: average
+                label: "Average Project Hourly Rate"
+        - name: project_cost_budget
+          meta:
+            dimension:
+              label: "Project Cost Budget"
+              type: number
+              hidden: yes
+            metrics:
+              total_project_cost_budget:
+                type: sum
+                label: "Total Project Cost Budget"
+              avg_project_cost_budget:
+                type: average
+                label: "Average Project Cost Budget"
+        - name: project_fee_amount
+          meta:
+            dimension:
+              label: "Project Fee Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_project_fee_amount:
+                type: sum
+                label: "Total Project Fee Amount"
+              avg_project_fee_amount:
+                type: average
+                label: "Average Project Fee Amount"
+        - name: project_budget_amount
+          meta:
+            dimension:
+              label: "Project Budget Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_project_budget_amount:
+                type: sum
+                label: "Total Project Budget Amount"
+              avg_project_budget_amount:
+                type: average
+                label: "Average Project Budget Amount"
+        - name: total_business_days_pct_left
+          meta:
+            dimension:
+              label: "Total Business Days Pct Left"
+              type: number
+              hidden: yes
+            metrics:
+              total_total_business_days_pct_left:
+                type: sum
+                label: "Total Total Business Days Pct Left"
+              avg_total_business_days_pct_left:
+                type: average
+                label: "Average Total Business Days Pct Left"
+        - name: total_recognized_revenue_per_working_day
+          meta:
+            dimension:
+              label: "Total Recognized Revenue Per Working Day"
+              type: number
+              hidden: yes
+            metrics:
+              total_total_recognized_revenue_per_working_day:
+                type: sum
+                label: "Total Total Recognized Revenue Per Working Day"
+              avg_total_recognized_revenue_per_working_day:
+                type: average
+                label: "Average Total Recognized Revenue Per Working Day"
+        - name: total_project_fee_recognized_revenue
+          meta:
+            dimension:
+              label: "Total Project Fee Recognized Revenue"
+              type: number
+              hidden: yes
+            metrics:
+              total_total_project_fee_recognized_revenue:
+                type: sum
+                label: "Total Total Project Fee Recognized Revenue"
+              avg_total_project_fee_recognized_revenue:
+                type: average
+                label: "Average Total Project Fee Recognized Revenue"
+
+    - name: wh_timesheet_tasks_dim
+      meta:
+        label: "Timesheet Tasks"
+      columns:
+        - name: timesheet_task_pk
+          meta:
+            dimension:
+              label: "Timesheet Task Key"
+              type: string
+              hidden: no
+        - name: task_id
+          meta:
+            dimension:
+              label: "Task Id"
+              type: string
+              hidden: no
+        - name: task_name
+          meta:
+            dimension:
+              label: "Task Name"
+              type: string
+              hidden: no
+        - name: task_created_at
+          meta:
+            dimension:
+              label: "Task Created At"
+              type: timestamp
+              time_intervals: default
+        - name: task_updated_at
+          meta:
+            dimension:
+              label: "Task Updated At"
+              type: timestamp
+              time_intervals: default
+        - name: task_billable_by_default
+          meta:
+            dimension:
+              label: "Task Billable By Default"
+              type: boolean
+              hidden: no
+        - name: task_is_active
+          meta:
+            dimension:
+              label: "Task Is Active"
+              type: boolean
+              hidden: no
+        - name: task_default_hourly_rate
+          meta:
+            dimension:
+              label: "Task Default Hourly Rate"
+              type: number
+              hidden: yes
+            metrics:
+              total_task_default_hourly_rate:
+                type: sum
+                label: "Total Task Default Hourly Rate"
+              avg_task_default_hourly_rate:
+                type: average
+                label: "Average Task Default Hourly Rate"
+
+    - name: wh_timesheets_fact
+      meta:
+        label: "Timesheets"
+      columns:
+        - name: timesheet_pk
+          meta:
+            dimension:
+              label: "Timesheet Key"
+              type: string
+              hidden: no
+        - name: company_pk
+          meta:
+            dimension:
+              label: "Company Key"
+              type: string
+              hidden: no
+        - name: contact_pk
+          meta:
+            dimension:
+              label: "Contact Key"
+              type: string
+              hidden: no
+        - name: timesheet_project_pk
+          meta:
+            dimension:
+              label: "Timesheet Project Key"
+              type: string
+              hidden: no
+        - name: timesheet_task_pk
+          meta:
+            dimension:
+              label: "Timesheet Task Key"
+              type: string
+              hidden: no
+        - name: timesheet_invoice_id
+          meta:
+            dimension:
+              label: "Timesheet Invoice Id"
+              type: string
+              hidden: no
+        - name: timesheet_notes
+          meta:
+            dimension:
+              label: "Timesheet Notes"
+              type: string
+              hidden: no
+        - name: timesheet_billing_date
+          meta:
+            dimension:
+              label: "Timesheet Billing Date"
+              type: timestamp
+              time_intervals: default
+        - name: first_company_timesheet_billing_date
+          meta:
+            dimension:
+              label: "First Company Timesheet Billing Date"
+              type: timestamp
+              time_intervals: default
+        - name: last_company_timesheet_billing_date
+          meta:
+            dimension:
+              label: "Last Company Timesheet Billing Date"
+              type: timestamp
+              time_intervals: default
+        - name: timesheet_is_billable
+          meta:
+            dimension:
+              label: "Timesheet Is Billable"
+              type: boolean
+              hidden: no
+        - name: timesheet_has_been_billed
+          meta:
+            dimension:
+              label: "Timesheet Has Been Billed"
+              type: boolean
+              hidden: no
+        - name: timesheet_has_been_locked
+          meta:
+            dimension:
+              label: "Timesheet Has Been Locked"
+              type: boolean
+              hidden: no
+        - name: timesheet_hours_billed
+          meta:
+            dimension:
+              label: "Timesheet Hours Billed"
+              type: number
+              hidden: yes
+            metrics:
+              total_timesheet_hours_billed:
+                type: sum
+                label: "Total Timesheet Hours Billed"
+              avg_timesheet_hours_billed:
+                type: average
+                label: "Average Timesheet Hours Billed"
+        - name: timesheet_total_amount_billed
+          meta:
+            dimension:
+              label: "Timesheet Total Amount Billed"
+              type: number
+              hidden: yes
+            metrics:
+              total_timesheet_total_amount_billed:
+                type: sum
+                label: "Total Timesheet Total Amount Billed"
+              avg_timesheet_total_amount_billed:
+                type: average
+                label: "Average Timesheet Total Amount Billed"
+        - name: timesheet_billable_hourly_rate_amount
+          meta:
+            dimension:
+              label: "Timesheet Billable Hourly Rate Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_timesheet_billable_hourly_rate_amount:
+                type: sum
+                label: "Total Timesheet Billable Hourly Rate Amount"
+              avg_timesheet_billable_hourly_rate_amount:
+                type: average
+                label: "Average Timesheet Billable Hourly Rate Amount"
+        - name: timesheet_billable_hourly_cost_amount
+          meta:
+            dimension:
+              label: "Timesheet Billable Hourly Cost Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_timesheet_billable_hourly_cost_amount:
+                type: sum
+                label: "Total Timesheet Billable Hourly Cost Amount"
+              avg_timesheet_billable_hourly_cost_amount:
+                type: average
+                label: "Average Timesheet Billable Hourly Cost Amount"
+
+    - name: wh_transactions_fact
+      meta:
+        label: "Transactions"
+      columns:
+        - name: transaction_pk
+          meta:
+            dimension:
+              label: "Transaction Key"
+              type: string
+              hidden: no
+        - name: source
+          meta:
+            dimension:
+              label: "Source"
+              type: string
+              hidden: no
+        - name: transaction_id
+          meta:
+            dimension:
+              label: "Transaction Id"
+              type: string
+              hidden: no
+        - name: transaction_description
+          meta:
+            dimension:
+              label: "Transaction Description"
+              type: string
+              hidden: no
+        - name: account_code
+          meta:
+            dimension:
+              label: "Account Code"
+              type: string
+              hidden: no
+        - name: transaction_currency
+          meta:
+            dimension:
+              label: "Transaction Currency"
+              type: string
+              hidden: no
+        - name: transaction_status
+          meta:
+            dimension:
+              label: "Transaction Status"
+              type: string
+              hidden: no
+        - name: transaction_type
+          meta:
+            dimension:
+              label: "Transaction Type"
+              type: string
+              hidden: no
+        - name: transaction_created_ts
+          meta:
+            dimension:
+              label: "Transaction Created"
+              type: timestamp
+              time_intervals: default
+        - name: transaction_last_modified_ts
+          meta:
+            dimension:
+              label: "Transaction Last Modified"
+              type: timestamp
+              time_intervals: default
+        - name: transaction_exchange_rate
+          meta:
+            dimension:
+              label: "Transaction Exchange Rate"
+              type: number
+              hidden: yes
+            metrics:
+              total_transaction_exchange_rate:
+                type: sum
+                label: "Total Transaction Exchange Rate"
+              avg_transaction_exchange_rate:
+                type: average
+                label: "Average Transaction Exchange Rate"
+        - name: transaction_gross_amount
+          meta:
+            dimension:
+              label: "Transaction Gross Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_transaction_gross_amount:
+                type: sum
+                label: "Total Transaction Gross Amount"
+              avg_transaction_gross_amount:
+                type: average
+                label: "Average Transaction Gross Amount"
+        - name: transaction_fee_amount
+          meta:
+            dimension:
+              label: "Transaction Fee Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_transaction_fee_amount:
+                type: sum
+                label: "Total Transaction Fee Amount"
+              avg_transaction_fee_amount:
+                type: average
+                label: "Average Transaction Fee Amount"
+        - name: transaction_tax_amount
+          meta:
+            dimension:
+              label: "Transaction Tax Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_transaction_tax_amount:
+                type: sum
+                label: "Total Transaction Tax Amount"
+              avg_transaction_tax_amount:
+                type: average
+                label: "Average Transaction Tax Amount"
+        - name: transaction_net_amount
+          meta:
+            dimension:
+              label: "Transaction Net Amount"
+              type: number
+              hidden: yes
+            metrics:
+              total_transaction_net_amount:
+                type: sum
+                label: "Total Transaction Net Amount"
+              avg_transaction_net_amount:
+                type: average
+                label: "Average Transaction Net Amount"
+
+    - name: wh_web_events_fact
+      meta:
+        label: "Web Events"
+      columns:
+        - name: web_event_pk
+          meta:
+            dimension:
+              label: "Web Event Key"
+              type: string
+              hidden: no
+        - name: event_id
+          meta:
+            dimension:
+              label: "Event Id"
+              type: string
+              hidden: no
+        - name: event_type
+          meta:
+            dimension:
+              label: "Event Type"
+              type: string
+              hidden: no
+        - name: event_details
+          meta:
+            dimension:
+              label: "Event Details"
+              type: string
+              hidden: no
+        - name: page_title
+          meta:
+            dimension:
+              label: "Page Title"
+              type: string
+              hidden: no
+        - name: page_url_path
+          meta:
+            dimension:
+              label: "Page Url Path"
+              type: string
+              hidden: no
+        - name: referrer_host
+          meta:
+            dimension:
+              label: "Referrer Host"
+              type: string
+              hidden: no
+        - name: search
+          meta:
+            dimension:
+              label: "Search"
+              type: string
+              hidden: no
+        - name: page_url
+          meta:
+            dimension:
+              label: "Page Url"
+              type: string
+              hidden: no
+        - name: page_url_host
+          meta:
+            dimension:
+              label: "Page Url Host"
+              type: string
+              hidden: no
+        - name: gclid
+          meta:
+            dimension:
+              label: "Gclid"
+              type: string
+              hidden: no
+        - name: utm_term
+          meta:
+            dimension:
+              label: "Utm Term"
+              type: string
+              hidden: no
+        - name: utm_content
+          meta:
+            dimension:
+              label: "Utm Content"
+              type: string
+              hidden: no
+        - name: utm_medium
+          meta:
+            dimension:
+              label: "Utm Medium"
+              type: string
+              hidden: no
+        - name: utm_campaign
+          meta:
+            dimension:
+              label: "Utm Campaign"
+              type: string
+              hidden: no
+        - name: utm_source
+          meta:
+            dimension:
+              label: "Utm Source"
+              type: string
+              hidden: no
+        - name: ip
+          meta:
+            dimension:
+              label: "Ip"
+              type: string
+              hidden: no
+        - name: visitor_id
+          meta:
+            dimension:
+              label: "Visitor Id"
+              type: string
+              hidden: no
+        - name: user_id
+          meta:
+            dimension:
+              label: "User Id"
+              type: string
+              hidden: no
+        - name: device
+          meta:
+            dimension:
+              label: "Device"
+              type: string
+              hidden: no
+        - name: device_category
+          meta:
+            dimension:
+              label: "Device Category"
+              type: string
+              hidden: no
+        - name: site
+          meta:
+            dimension:
+              label: "Site"
+              type: string
+              hidden: no
+        - name: blended_user_id
+          meta:
+            dimension:
+              label: "Blended User Id"
+              type: string
+              hidden: no
+        - name: converting_page_url
+          meta:
+            dimension:
+              label: "Converting Page Url"
+              type: string
+              hidden: no
+        - name: converting_page_title
+          meta:
+            dimension:
+              label: "Converting Page Title"
+              type: string
+              hidden: no
+        - name: pre_converting_page_url
+          meta:
+            dimension:
+              label: "Pre Converting Page Url"
+              type: string
+              hidden: no
+        - name: pre_converting_page_title
+          meta:
+            dimension:
+              label: "Pre Converting Page Title"
+              type: string
+              hidden: no
+        - name: prev_event_type
+          meta:
+            dimension:
+              label: "Prev Event Type"
+              type: string
+              hidden: no
+        - name: web_sessions_pk
+          meta:
+            dimension:
+              label: "Web Sessions Key"
+              type: string
+              hidden: no
+        - name: ad_campaign_pk
+          meta:
+            dimension:
+              label: "Ad Campaign Key"
+              type: string
+              hidden: no
+        - name: event_ts
+          meta:
+            dimension:
+              label: "Event"
+              type: timestamp
+              time_intervals: default
+        - name: prev_event_ts
+          meta:
+            dimension:
+              label: "Prev Event"
+              type: timestamp
+              time_intervals: default
+        - name: event_number
+          meta:
+            dimension:
+              label: "Event Number"
+              type: number
+              hidden: no
+        - name: event_seq
+          meta:
+            dimension:
+              label: "Event Seq"
+              type: number
+              hidden: no
+        - name: event_in_session_seq
+          meta:
+            dimension:
+              label: "Event In Session Seq"
+              type: number
+              hidden: no
+        - name: time_on_page_secs
+          meta:
+            dimension:
+              label: "Time On Page Secs"
+              type: number
+              hidden: no
+
+    - name: wh_web_sessions_fact
+      meta:
+        label: "6. Web Analytics"
+        join:
+          sql_on: ${wh_web_sessions_fact.web_sessions_pk} = ${wh_web_events_fact.web_sessions_pk}
+        join:
+          sql_on: ${wh_web_sessions_fact.ad_campaign_pk} = ${wh_ad_campaigns_dim.ad_campaign_pk};;
+      columns:
+        - name: web_sessions_pk
+          meta:
+            dimension:
+              label: "Web Sessions Key"
+              type: string
+              hidden: no
+        - name: utm_source
+          meta:
+            dimension:
+              label: "Utm Source"
+              type: string
+              hidden: no
+        - name: utm_content
+          meta:
+            dimension:
+              label: "Utm Content"
+              type: string
+              hidden: no
+        - name: utm_medium
+          meta:
+            dimension:
+              label: "Utm Medium"
+              type: string
+              hidden: no
+        - name: utm_campaign
+          meta:
+            dimension:
+              label: "Utm Campaign"
+              type: string
+              hidden: no
+        - name: utm_term
+          meta:
+            dimension:
+              label: "Utm Term"
+              type: string
+              hidden: no
+        - name: search
+          meta:
+            dimension:
+              label: "Search"
+              type: string
+              hidden: no
+        - name: gclid
+          meta:
+            dimension:
+              label: "Gclid"
+              type: string
+              hidden: no
+        - name: first_page_url
+          meta:
+            dimension:
+              label: "First Page Url"
+              type: string
+              hidden: no
+        - name: first_page_url_host
+          meta:
+            dimension:
+              label: "First Page Url Host"
+              type: string
+              hidden: no
+        - name: first_page_url_path
+          meta:
+            dimension:
+              label: "First Page Url Path"
+              type: string
+              hidden: no
+        - name: referrer_host
+          meta:
+            dimension:
+              label: "Referrer Host"
+              type: string
+              hidden: no
+        - name: device
+          meta:
+            dimension:
+              label: "Device"
+              type: string
+              hidden: no
+        - name: device_category
+          meta:
+            dimension:
+              label: "Device Category"
+              type: string
+              hidden: no
+        - name: last_page_url
+          meta:
+            dimension:
+              label: "Last Page Url"
+              type: string
+              hidden: no
+        - name: last_page_url_host
+          meta:
+            dimension:
+              label: "Last Page Url Host"
+              type: string
+              hidden: no
+        - name: last_page_url_path
+          meta:
+            dimension:
+              label: "Last Page Url Path"
+              type: string
+              hidden: no
+        - name: duration_in_s_tier
+          meta:
+            dimension:
+              label: "Duration In S Tier"
+              type: string
+              hidden: no
+        - name: referrer_medium
+          meta:
+            dimension:
+              label: "Referrer Medium"
+              type: string
+              hidden: no
+        - name: referrer_source
+          meta:
+            dimension:
+              label: "Referrer Source"
+              type: string
+              hidden: no
+        - name: channel
+          meta:
+            dimension:
+              label: "Channel"
+              type: string
+              hidden: no
+        - name: blended_user_id
+          meta:
+            dimension:
+              label: "Blended User Id"
+              type: string
+              hidden: no
+        - name: ad_campaign_pk
+          meta:
+            dimension:
+              label: "Ad Campaign Key"
+              type: string
+              hidden: no
+        - name: session_start_ts
+          meta:
+            dimension:
+              label: "Session Start"
+              type: timestamp
+              time_intervals: default
+        - name: session_end_ts
+          meta:
+            dimension:
+              label: "Session End"
+              type: timestamp
+              time_intervals: default
+        - name: is_bounced_session
+          meta:
+            dimension:
+              label: "Is Bounced Session"
+              type: boolean
+              hidden: no
+        - name: events
+          meta:
+            dimension:
+              label: "Events"
+              type: number
+              hidden: no
+        - name: duration_in_s
+          meta:
+            dimension:
+              label: "Duration In S"
+              type: number
+              hidden: no
+        - name: mins_between_sessions
+          meta:
+            dimension:
+              label: "Mins Between Sessions"
+              type: number
+              hidden: no
+        - name: user_session_number
+          meta:
+            dimension:
+              label: "User Session Number"
+              type: number
+              hidden: no

@@ -1,0 +1,15 @@
+version: 2
+
+sources:
+  - name: officevibe
+    database: "{{ var('stg_officevibe_surveys_database') }}"
+    schema: "{{ var('stg_officevibe_surveys_schema') }}"
+
+    freshness:
+      warn_after: {count: 1, period: day}
+
+    loaded_at_field: date
+
+    tables:
+      - name: survey_results
+        identifier: officevibe

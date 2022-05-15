@@ -1,0 +1,15 @@
+version: 2
+
+sources:
+  - name: github_starrers
+    database: "{{ var('stg_github_starrers_database') }}"
+    schema: "{{ var('stg_github_starrers_schema') }}"
+
+    freshness:
+      warn_after: {count: 1, period: day}
+
+    loaded_at_field: Row_Updated_At
+
+    tables:
+      - name: contacts
+        identifier: github_starrers

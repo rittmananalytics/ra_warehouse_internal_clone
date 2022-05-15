@@ -1,0 +1,14 @@
+version:  2
+
+models:
+  - name: stg_linkedin_commenters_contacts
+    description: "Linkedin Post Liker Contacts"
+    columns:
+      - name: contact_id
+        tests:
+          - unique
+          - not_null
+      - name: contact_name
+        tests:
+          - not_null:
+              severity: warn

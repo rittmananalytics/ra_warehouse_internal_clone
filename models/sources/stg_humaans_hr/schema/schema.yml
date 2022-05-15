@@ -1,0 +1,14 @@
+version:  2
+
+models:
+  - name: stg_humaans_hr_contacts
+    description: "Humaans Contacts Dimension Staging"
+    columns:
+      - name: contact_id
+        tests:
+          - unique
+          - not_null
+      - name: contact_created_date
+        tests:
+          - not_null:
+              severity: warn

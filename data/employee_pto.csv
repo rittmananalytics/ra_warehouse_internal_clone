@@ -1,0 +1,74 @@
+First_name,Last_name,email,Type,Start_date,End_date,Days
+Toby,Sexton,toby@rittmananalytics.com,Paid time off,2022-12-28,2022-12-29,2
+Toby,Sexton,toby@rittmananalytics.com,Paid time off,2022-08-22,2022-08-25,4
+Toby,Sexton,toby@rittmananalytics.com,Paid time off,2022-08-15,2022-08-18,4
+Toby,Sexton,toby@rittmananalytics.com,Paid time off,2022-05-30,2022-06-01,3
+Jordan,Ilyat,jordan@rittmananalytics.com,Paid time off,2022-05-03,2022-05-13,9
+Olivier,Dupuis,olivier@rittmananalytics.com,Unpaid leave,2022-02-21,2022-03-04,10
+Alaric,Jewitt,alaric@rittmananalytics.com,Paid time off,2022-02-21,2022-02-25,5
+Toby,Sexton,toby@rittmananalytics.com,Paid time off,2022-02-14,2022-02-14,1
+Lewis ,Baker,lewis@rittmananalytics.com,Paid time off,2021-12-29,2021-12-29,1
+Mark,Rittman,mark.rittman@rittmananalytics.com,Paid time off,2021-12-29,2021-12-31,3
+Toby,Sexton,toby@rittmananalytics.com,Paid time off,2021-12-29,2021-12-30,2
+Alaric,Jewitt,alaric@rittmananalytics.com,Paid time off,2021-12-24,2021-12-31,4
+Olivier,Dupuis,olivier@rittmananalytics.com,Unpaid leave,2021-12-24,2022-01-07,9
+Toby,Sexton,toby@rittmananalytics.com,Paid time off,2021-12-23,2021-12-23,0.5
+Mark,Rittman,mark.rittman@rittmananalytics.com,Paid time off,2021-12-23,2021-12-24,2
+Lewis ,Baker,lewis@rittmananalytics.com,Paid time off,2021-12-20,2021-12-24,5
+Alaric,Jewitt,alaric@rittmananalytics.com,Sick leave,2021-12-17,2021-12-17,0.5
+Alaric,Jewitt,alaric@rittmananalytics.com,Paid time off,2021-12-17,2021-12-17,0.5
+Alaric,Jewitt,alaric@rittmananalytics.com,Sick leave,2021-12-16,2021-12-16,1
+Alaric,Jewitt,alaric@rittmananalytics.com,Sick leave,2021-12-15,2021-12-15,1
+Alaric,Jewitt,alaric@rittmananalytics.com,Sick leave,2021-12-13,2021-12-14,2
+Olivier,Dupuis,olivier@rittmananalytics.com,Paid time off,2021-12-13,2021-12-13,1
+Toby,Sexton,toby@rittmananalytics.com,Paid time off,2021-12-13,2021-12-13,1
+Mark,Rittman,mark.rittman@rittmananalytics.com,Paid time off,2021-12-13,2021-12-14,2
+Alaric,Jewitt,alaric@rittmananalytics.com,Paid time off,2021-12-10,2021-12-10,0.5
+Mark,Rittman,mark.rittman@rittmananalytics.com,Compassionate,2021-12-08,2021-12-08,1
+Lewis ,Baker,lewis@rittmananalytics.com,Paid time off,2021-11-26,2021-11-26,1
+Lewis ,Baker,lewis@rittmananalytics.com,Paid time off,2021-11-22,2021-11-22,1
+Toby,Sexton,toby@rittmananalytics.com,Paid time off,2021-10-25,2021-10-28,4
+Olivier,Dupuis,olivier@rittmananalytics.com,Unpaid leave,2021-10-12,2021-10-22,9
+Olivier,Dupuis,olivier@rittmananalytics.com,Paid time off,2021-10-04,2021-10-04,1
+Lewis ,Baker,lewis@rittmananalytics.com,Paid time off,2021-09-10,2021-09-17,6
+Will,Berrystone,will@rittmananalytics.com,Paid time off,2021-09-10,2021-09-13,2
+Mark,Rittman,mark.rittman@rittmananalytics.com,Paid time off,2021-08-25,2021-08-27,3
+Will,Berrystone,will@rittmananalytics.com,Paid time off,2021-08-20,2021-08-20,1
+Will,Berrystone,will@rittmananalytics.com,Paid time off,2021-08-12,2021-08-13,2
+Lewis ,Baker,lewis@rittmananalytics.com,Paid time off,2021-08-12,2021-08-13,2
+Mark,Rittman,mark.rittman@rittmananalytics.com,Paid time off,2021-08-02,2021-08-05,4
+Olivier,Dupuis,olivier@rittmananalytics.com,Paid time off,2021-08-02,2021-08-13,10
+George,Sanderson,george@rittmananalytics.com,Paid time off,2021-07-08,2021-07-08,1
+George,Sanderson,george@rittmananalytics.com,Paid time off,2021-07-07,2021-07-07,1
+Mark,Rittman,mark.rittman@rittmananalytics.com,Paid time off,2021-07-05,2021-07-06,2
+Olivier,Dupuis,olivier@rittmananalytics.com,Paid time off,2021-06-24,2021-06-25,1
+Mike,Calleja,mike@rittmananalytics.com,Paid time off,2021-05-26,2021-05-28,3
+George,Sanderson,george@rittmananalytics.com,Paid time off,2021-05-24,2021-05-24,1
+George,Sanderson,george@rittmananalytics.com,Paid time off,2021-05-14,2021-05-14,1
+Will,Berrystone,will@rittmananalytics.com,Paid time off,2021-05-10,2021-05-14,5
+Mike,Calleja,mike@rittmananalytics.com,Paid time off,2021-04-29,2021-04-29,1
+Lewis ,Baker,lewis@rittmananalytics.com,Paid time off,2021-04-26,2021-05-07,9
+Will,Berrystone,will@rittmananalytics.com,Paid time off,2021-04-16,2021-04-19,2
+Mike,Calleja,mike@rittmananalytics.com,Paid time off,2021-03-10,2021-03-12,3
+Rob,Bramwell,rob@rittmananalytics.com,Paid time off,2021-02-23,2021-02-26,4
+Mike,Calleja,mike@rittmananalytics.com,Paid time off,2021-02-16,2021-02-16,0.5
+Olivier,Dupuis,olivier@rittmananalytics.com,Paid time off,2021-01-04,2021-01-06,3
+Olivier,Dupuis,olivier@rittmananalytics.com,Paid time off,2020-12-31,2020-12-31,1
+Mike,Calleja,mike@rittmananalytics.com,Paid time off,2020-12-29,2020-12-31,3
+Lewis ,Baker,lewis@rittmananalytics.com,Paid time off,2020-12-29,2020-12-31,3
+Olivier,Dupuis,olivier@rittmananalytics.com,Paid time off,2020-12-23,2020-12-24,2
+Rob,Bramwell,rob@rittmananalytics.com,Paid time off,2020-12-21,2020-12-31,7
+Lewis ,Baker,lewis@rittmananalytics.com,Paid time off,2020-12-17,2020-12-18,2
+Rob,Bramwell,rob@rittmananalytics.com,Paid time off,2020-12-10,2020-12-11,2
+Lewis ,Baker,lewis@rittmananalytics.com,Paid time off,2020-12-07,2020-12-11,5
+Rob,Bramwell,rob@rittmananalytics.com,Paid time off,2020-12-03,2020-12-04,2
+Rob,Bramwell,rob@rittmananalytics.com,Paid time off,2020-11-26,2020-11-27,2
+Lewis ,Baker,lewis@rittmananalytics.com,Paid time off,2020-11-23,2020-11-27,5
+Lewis ,Baker,lewis@rittmananalytics.com,Paid time off,2020-11-20,2020-11-20,1
+Rob,Bramwell,rob@rittmananalytics.com,Paid time off,2020-11-20,2020-11-20,1
+Rob,Bramwell,rob@rittmananalytics.com,Paid time off,2020-09-21,2020-09-25,5
+Lewis ,Baker,lewis@rittmananalytics.com,Paid time off,2020-08-24,2020-09-04,9
+Mark,Rittman,mark.rittman@rittmananalytics.com,Paid time off,2020-08-03,2020-08-05,3
+Rob,Bramwell,rob@rittmananalytics.com,Paid time off,2020-08-03,2020-08-07,5
+Rob,Bramwell,rob@rittmananalytics.com,Compassionate,2020-07-24,2020-07-24,1
+Craig,Fraser,craig@rittmananalytics.com,Paid time off,2020-07-17,2020-07-17,1

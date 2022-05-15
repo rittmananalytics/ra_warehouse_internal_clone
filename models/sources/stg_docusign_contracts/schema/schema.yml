@@ -1,0 +1,34 @@
+version: 2
+
+models:
+  - name: stg_docusign_contracts_contacts
+    columns:
+      - name: contact_id
+        tests:
+          - unique
+          - not_null
+      - name: contact_name
+        tests:
+          - unique
+          - not_null
+      - name: contact_company_id
+        tests:
+          - not_null:
+              severity: warn
+  - name: stg_docusign_contracts_contracts
+    columns:
+      - name: contact_id
+        tests:
+          - not_null:
+              severity: warn
+          - relationships:
+              to: ref('stg_docusign_contracts_contacts')
+              field: contact_id
+      - name: contract_id
+        tests:
+          - unique
+          - not_null
+      - name: contract_name
+        tests:
+          - not_null:
+              severity: warn

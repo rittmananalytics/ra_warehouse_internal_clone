@@ -1,0 +1,21 @@
+version: 2
+
+sources:
+  - name: stitch_harvest_forecast
+    database: "{{ var('stg_harvest_forecast_stitch_database') }}"
+    schema: "{{ var('stg_harvest_forecast_stitch_schema') }}"
+
+    freshness:
+      warn_after: {count: 1, period: day}
+
+    loaded_at_field: _sdc_batched_at
+
+    tables:
+      - name: clients
+        identifier: clients
+      - name: contacts
+        identifier: people
+      - name: projects
+        identifier: projects
+      - name: assignments
+        identifier: assignments

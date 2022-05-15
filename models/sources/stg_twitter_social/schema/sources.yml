@@ -1,0 +1,32 @@
+version: 2
+
+sources:
+  - name: twitter_followers
+    database: "{{ var('stg_twitter_social_database') }}"
+    schema: "{{ var('stg_twitter_social_schema') }}"
+
+    freshness:
+      warn_after: {count: 1, period: day}
+
+    loaded_at_field: Row_Updated_At
+
+    tables:
+      - name: contacts
+        identifier: twitter_followers
+
+  - name: twitter_tweets
+    database: "{{ var('stg_twitter_social_database') }}"
+    schema: "{{ var('stg_twitter_social_schema') }}"
+
+    freshness:
+      warn_after: {count: 1, period: day}
+
+    loaded_at_field: Row_Updated_At
+
+    tables:
+      - name: tweets
+        identifier: tweets
+      - name: twitter_likes
+        identifier: twitter_likes
+      - name: contacts
+        identifier: twitter_likers

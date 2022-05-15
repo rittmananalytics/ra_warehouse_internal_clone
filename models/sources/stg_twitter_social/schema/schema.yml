@@ -1,0 +1,14 @@
+version:  2
+
+models:
+  - name: stg_twitter_crm_contacts
+    description: "Twitter Follower Contacts"
+    columns:
+      - name: contact_id
+        tests:
+          - unique
+          - not_null
+      - name: contact_name
+        tests:
+          - not_null:
+              severity: warn

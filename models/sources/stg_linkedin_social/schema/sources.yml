@@ -1,0 +1,56 @@
+version: 2
+
+sources:
+  - name: linkedin_likers
+    database: "{{ var('stg_linkedin_social_database') }}"
+    schema: "{{ var('stg_linkedin_social_schema') }}"
+
+    freshness:
+      warn_after: {count: 1, period: day}
+
+    loaded_at_field: Row_Updated_At
+
+    tables:
+      - name: contacts
+        identifier: linkedin_post_likers
+
+  - name: linkedin_followers
+    database: "{{ var('stg_linkedin_social_database') }}"
+    schema: "{{ var('stg_linkedin_social_schema') }}"
+
+    freshness:
+      warn_after: {count: 1, period: day}
+
+    loaded_at_field: Row_Updated_At
+
+    tables:
+      - name: contacts
+        identifier: linkedin_followers
+      - name: profiles
+        identifier: linkedin_profiles
+
+  - name: linkedin_commenters
+    database: "{{ var('stg_linkedin_social_database') }}"
+    schema: "{{ var('stg_linkedin_social_schema') }}"
+
+    freshness:
+      warn_after: {count: 1, period: day}
+
+    loaded_at_field: Row_Updated_At
+
+    tables:
+      - name: contacts
+        identifier: linkedin_commenters
+
+  - name: linkedin_posts
+    database: "{{ var('stg_linkedin_social_database') }}"
+    schema: "{{ var('stg_linkedin_social_schema') }}"
+
+    freshness:
+      warn_after: {count: 1, period: day}
+
+    loaded_at_field: posted_at_ts
+
+    tables:
+      - name: posts
+        identifier: linkedin_posts
